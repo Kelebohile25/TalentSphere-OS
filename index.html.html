@@ -1,0 +1,1983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TalentSphere OS — Complete Portfolio Documentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080b12;
+  --bg-surface: #0d1117;
+  --bg-card: #111620;
+  --bg-elevated: #161d2b;
+  --border: rgba(255,255,255,0.07);
+  --border-mid: rgba(255,255,255,0.13);
+  --gold: #c9a84c;
+  --gold-dim: rgba(201,168,76,0.13);
+  --teal: #2dd4bf;
+  --teal-dim: rgba(45,212,191,0.11);
+  --rose: #fb7185;
+  --rose-dim: rgba(251,113,133,0.11);
+  --indigo: #818cf8;
+  --indigo-dim: rgba(129,140,248,0.11);
+  --amber: #fbbf24;
+  --green: #22c55e;
+  --text: #eef2ff;
+  --text-2: rgba(238,242,255,0.65);
+  --text-3: rgba(238,242,255,0.38);
+  --font: 'Syne', sans-serif;
+  --mono: 'DM Mono', monospace;
+  --serif: 'Crimson Pro', serif;
+  --r: 10px;
+  --rl: 16px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; }
+
+/* ── LAYOUT ── */
+.shell { display: flex; min-height: 100vh; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: 280px; min-width: 280px;
+  background: var(--bg-surface);
+  border-right: 1px solid var(--border);
+  position: fixed; top: 0; left: 0; bottom: 0;
+  overflow-y: auto; overflow-x: hidden;
+  display: flex; flex-direction: column;
+  z-index: 50;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-mid) transparent;
+}
+.sidebar-brand {
+  padding: 28px 24px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.brand-orb {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: conic-gradient(from 0deg, var(--gold), var(--teal), var(--indigo), var(--gold));
+  animation: spin 6s linear infinite;
+  margin-bottom: 12px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.brand-name { font-size: 17px; font-weight: 800; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--gold), #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.brand-sub { font-size: 10px; font-family: var(--mono); color: var(--text-3); letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+
+.sidebar-section { padding: 8px 12px 4px; }
+.sidebar-section-label { font-size: 9px; font-family: var(--mono); letter-spacing: 2.5px; color: var(--text-3); text-transform: uppercase; padding: 8px 12px 4px; }
+.sidebar-link {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 12px; border-radius: 8px;
+  font-size: 12px; font-weight: 600; color: var(--text-2);
+  cursor: pointer; transition: all 0.15s; margin-bottom: 1px;
+  text-decoration: none; border: none; background: none; width: 100%; text-align: left;
+}
+.sidebar-link:hover { background: var(--border); color: var(--text); }
+.sidebar-link.active { background: var(--gold-dim); color: var(--gold); }
+.sidebar-link .num { font-family: var(--mono); font-size: 9px; color: var(--text-3); min-width: 22px; }
+.sidebar-link .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.sidebar-footer { padding: 20px 24px; border-top: 1px solid var(--border); margin-top: auto; }
+.sidebar-footer .attr { font-size: 10px; font-family: var(--mono); color: var(--text-3); line-height: 1.8; }
+.sidebar-footer .attr span { color: var(--gold); }
+
+/* ── CONTENT ── */
+.content { margin-left: 280px; flex: 1; min-height: 100vh; }
+
+/* ── TOPBAR ── */
+.topbar {
+  position: sticky; top: 0;
+  background: rgba(8,11,18,0.9); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 40px; height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  z-index: 40;
+}
+.topbar-crumb { font-size: 12px; color: var(--text-3); font-family: var(--mono); }
+.topbar-crumb span { color: var(--text); font-weight: 700; }
+.topbar-actions { display: flex; gap: 8px; align-items: center; }
+.pill { padding: 4px 12px; border-radius: 99px; font-size: 10px; font-family: var(--mono); letter-spacing: 1px; }
+.pill-gold { background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(201,168,76,0.25); }
+.pill-teal { background: var(--teal-dim); color: var(--teal); border: 1px solid rgba(45,212,191,0.25); }
+
+/* ── SECTIONS ── */
+.section { display: none; padding: 48px 48px 80px; max-width: 1100px; }
+.section.active { display: block; animation: fadeIn 0.35s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── TYPOGRAPHY ── */
+.part-label { font-family: var(--mono); font-size: 10px; letter-spacing: 3px; color: var(--text-3); text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.part-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+h1 { font-size: 42px; font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 12px; }
+h1 .gold { background: linear-gradient(135deg, var(--gold) 0%, #e8d090 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+h2 { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 8px; margin-top: 40px; }
+h2:first-of-type { margin-top: 0; }
+h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; margin-top: 28px; color: var(--text); }
+p { font-size: 14px; color: var(--text-2); line-height: 1.8; margin-bottom: 14px; }
+.lead { font-family: var(--serif); font-size: 20px; color: var(--text-2); line-height: 1.7; margin-bottom: 24px; font-weight: 300; }
+strong { color: var(--text); font-weight: 700; }
+ul, ol { padding-left: 20px; margin-bottom: 16px; }
+li { font-size: 13px; color: var(--text-2); line-height: 1.9; }
+li strong { color: var(--text); }
+hr { border: none; border-top: 1px solid var(--border); margin: 36px 0; }
+blockquote { border-left: 3px solid var(--gold); padding: 16px 20px; background: var(--gold-dim); border-radius: 0 8px 8px 0; margin: 20px 0; }
+blockquote p { font-family: var(--serif); font-size: 17px; color: var(--text); font-style: italic; margin: 0; }
+blockquote cite { font-size: 11px; color: var(--text-3); font-family: var(--mono); display: block; margin-top: 8px; }
+code { font-family: var(--mono); font-size: 12px; background: var(--bg-elevated); border: 1px solid var(--border); padding: 2px 7px; border-radius: 4px; color: var(--teal); }
+pre { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--r); padding: 24px; font-family: var(--mono); font-size: 12px; color: var(--text-2); overflow-x: auto; margin: 16px 0; line-height: 1.9; }
+pre .c { color: var(--text-3); }
+pre .k { color: var(--gold); }
+pre .s { color: var(--teal); }
+pre .v { color: var(--indigo); }
+pre .t { color: var(--rose); }
+
+/* ── CARDS ── */
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--rl); padding: 24px; margin-bottom: 16px; }
+.card-sm { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--r); padding: 16px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+@media(max-width:900px) { .grid-3,.grid-4 { grid-template-columns: 1fr 1fr; } .grid-2 { grid-template-columns: 1fr; } }
+
+/* ── BADGES ── */
+.badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 99px; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; }
+.bg { background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(201,168,76,0.2); }
+.bt { background: var(--teal-dim); color: var(--teal); border: 1px solid rgba(45,212,191,0.2); }
+.bi { background: var(--indigo-dim); color: var(--indigo); border: 1px solid rgba(129,140,248,0.2); }
+.br { background: var(--rose-dim); color: var(--rose); border: 1px solid rgba(251,113,133,0.2); }
+.ba { background: rgba(251,191,36,0.1); color: var(--amber); border: 1px solid rgba(251,191,36,0.2); }
+.bgn { background: rgba(34,197,94,0.1); color: var(--green); border: 1px solid rgba(34,197,94,0.2); }
+
+/* ── ACCENT STRIPES ── */
+.stripe-gold { border-left: 3px solid var(--gold); }
+.stripe-teal { border-left: 3px solid var(--teal); }
+.stripe-indigo { border-left: 3px solid var(--indigo); }
+.stripe-rose { border-left: 3px solid var(--rose); }
+.stripe-amber { border-left: 3px solid var(--amber); }
+.stripe-green { border-left: 3px solid var(--green); }
+
+/* ── TABLE ── */
+table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+th { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-3); padding: 10px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+td { font-size: 13px; padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--text-2); vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(255,255,255,0.02); }
+.td-name { color: var(--text); font-weight: 600; }
+.td-gold { color: var(--gold); font-weight: 700; }
+.td-teal { color: var(--teal); font-weight: 700; }
+.td-rose { color: var(--rose); font-weight: 700; }
+.td-indigo { color: var(--indigo); font-weight: 700; }
+
+/* ── METRIC CALLOUT ── */
+.metric-row { display: flex; gap: 12px; flex-wrap: wrap; margin: 20px 0; }
+.metric-box { flex: 1; min-width: 140px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r); padding: 20px 16px; text-align: center; }
+.metric-val { font-size: 36px; font-weight: 800; letter-spacing: -2px; }
+.metric-lbl { font-size: 10px; font-family: var(--mono); letter-spacing: 1.5px; color: var(--text-3); text-transform: uppercase; margin-top: 4px; }
+.metric-delta { font-size: 11px; font-family: var(--mono); margin-top: 6px; }
+.up { color: var(--green); } .dn { color: var(--rose); } .nt { color: var(--gold); }
+
+/* ── PERSONA CARD ── */
+.persona { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--rl); padding: 24px; position: relative; overflow: hidden; transition: border-color 0.2s; }
+.persona:hover { border-color: var(--border-mid); }
+.persona::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.persona.gold::before { background: linear-gradient(90deg, var(--gold), var(--amber)); }
+.persona.teal::before { background: linear-gradient(90deg, var(--teal), var(--indigo)); }
+.persona.indigo::before { background: linear-gradient(90deg, var(--indigo), var(--rose)); }
+.persona.rose::before { background: linear-gradient(90deg, var(--rose), var(--amber)); }
+.persona.green::before { background: linear-gradient(90deg, var(--green), var(--teal)); }
+.persona.amber::before { background: linear-gradient(90deg, var(--amber), var(--gold)); }
+.persona-role { font-family: var(--mono); font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--text-3); margin-bottom: 12px; }
+.persona-avatar { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; color: var(--bg); margin-bottom: 12px; }
+.persona-name { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 2px; }
+.persona-title { font-size: 11px; color: var(--text-3); margin-bottom: 16px; font-family: var(--mono); }
+.persona-quote { font-family: var(--serif); font-size: 15px; font-style: italic; color: var(--text-2); line-height: 1.6; margin-bottom: 16px; border-left: 2px solid var(--border-mid); padding-left: 12px; }
+.persona-goal { font-size: 12px; color: var(--text-2); display: flex; align-items: flex-start; gap: 8px; margin-bottom: 7px; line-height: 1.5; }
+.persona-goal::before { content: '→'; flex-shrink: 0; }
+.persona-pain { font-size: 12px; color: var(--rose); display: flex; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
+.persona-pain::before { content: '✕'; flex-shrink: 0; }
+.persona-win { font-size: 12px; color: var(--teal); display: flex; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
+.persona-win::before { content: '✓'; flex-shrink: 0; }
+.persona-section-label { font-size: 9px; font-family: var(--mono); letter-spacing: 2px; text-transform: uppercase; color: var(--text-3); margin: 12px 0 6px; }
+
+/* ── ARCH LAYER ── */
+.arch-stack { display: flex; flex-direction: column; gap: 6px; margin: 20px 0; }
+.arch-layer { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--r); padding: 14px 18px; display: flex; align-items: center; gap: 20px; }
+.arch-layer-name { font-size: 10px; font-family: var(--mono); letter-spacing: 2px; text-transform: uppercase; min-width: 130px; }
+.arch-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.arch-chip { padding: 4px 10px; border-radius: 5px; font-size: 11px; font-weight: 600; }
+.arch-arrow { text-align: center; color: var(--text-3); font-size: 20px; padding: 2px 0; }
+
+/* ── TIMELINE ── */
+.tl { display: flex; flex-direction: column; gap: 0; }
+.tl-item { display: flex; gap: 16px; padding: 12px 0; position: relative; }
+.tl-item:not(:last-child)::before { content: ''; position: absolute; left: 15px; top: 38px; bottom: 0; width: 1px; background: var(--border); }
+.tl-node { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; border: 2px solid var(--border); background: var(--bg-card); z-index: 1; }
+.tl-node.done { border-color: var(--gold); background: var(--gold-dim); color: var(--gold); }
+.tl-node.active { border-color: var(--teal); background: var(--teal-dim); color: var(--teal); }
+.tl-node.future { border-color: var(--border); color: var(--text-3); }
+.tl-body { flex: 1; }
+.tl-title { font-size: 14px; font-weight: 700; }
+.tl-sub { font-size: 12px; color: var(--text-3); font-family: var(--mono); margin-top: 2px; }
+.tl-detail { font-size: 12px; color: var(--text-2); margin-top: 6px; line-height: 1.6; }
+.tl-when { font-size: 10px; font-family: var(--mono); color: var(--text-3); border: 1px solid var(--border); padding: 2px 8px; border-radius: 4px; white-space: nowrap; align-self: flex-start; margin-top: 6px; }
+
+/* ── FEATURE GRID ── */
+.feat { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--r); padding: 16px; transition: border-color 0.2s, transform 0.2s; cursor: default; }
+.feat:hover { border-color: var(--border-mid); transform: translateY(-2px); }
+.feat-icon { font-size: 22px; margin-bottom: 10px; }
+.feat-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+.feat-desc { font-size: 11px; color: var(--text-3); line-height: 1.6; }
+
+/* ── ROI TABLE ── */
+.roi-row-positive td:last-child { color: var(--teal); font-weight: 700; }
+.roi-row-neutral td:last-child { color: var(--gold); font-weight: 700; }
+
+/* ── PITCH SLIDE ── */
+.slide { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--rl); padding: 28px 32px; margin-bottom: 12px; display: flex; gap: 20px; align-items: flex-start; transition: border-color 0.2s; }
+.slide:hover { border-color: var(--border-mid); }
+.slide-num { font-size: 11px; font-family: var(--mono); color: var(--text-3); min-width: 60px; padding-top: 2px; }
+.slide-content { flex: 1; }
+.slide-title { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
+.slide-sub { font-size: 12px; color: var(--text-2); line-height: 1.7; }
+.slide-tag { margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap; }
+
+/* ── MODULE MAP ── */
+.module-map { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin: 20px 0; }
+.module { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--r); padding: 14px; text-align: center; transition: all 0.2s; cursor: default; }
+.module:hover { border-color: var(--border-mid); transform: translateY(-2px); }
+.module-icon { font-size: 20px; margin-bottom: 8px; }
+.module-name { font-size: 11px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.module-desc { font-size: 10px; color: var(--text-3); font-family: var(--mono); }
+@media(max-width:900px) { .module-map { grid-template-columns: repeat(2,1fr); } }
+
+/* ── DATA MODEL ── */
+.entity { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
+.entity-header { padding: 12px 16px; font-size: 12px; font-weight: 800; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: space-between; }
+.entity-field { padding: 8px 16px; border-top: 1px solid var(--border); font-size: 11px; display: flex; align-items: center; justify-content: space-between; }
+.entity-field:hover { background: rgba(255,255,255,0.02); }
+.field-name { color: var(--text-2); font-family: var(--mono); }
+.field-name.pk { color: var(--gold); }
+.field-name.fk { color: var(--teal); }
+.field-type { font-family: var(--mono); color: var(--text-3); font-size: 10px; }
+
+/* ── AI CAPABILITY ── */
+.ai-cap { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--r); padding: 18px; }
+.ai-cap-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.ai-cap-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+.ai-cap-title { font-size: 13px; font-weight: 700; }
+.ai-cap-sub { font-size: 10px; color: var(--text-3); font-family: var(--mono); }
+.ai-cap ul { margin: 0; padding-left: 16px; }
+.ai-cap li { font-size: 12px; color: var(--text-2); line-height: 1.9; }
+
+/* ── GH TREE ── */
+.gh-tree { font-family: var(--mono); font-size: 12px; color: var(--text-2); line-height: 2; }
+.gh-tree .folder { color: var(--gold); }
+.gh-tree .file { color: var(--teal); }
+.gh-tree .comment { color: var(--text-3); }
+
+/* ── REVIEW SECTION ── */
+.reviewer { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--rl); padding: 28px; margin-bottom: 16px; position: relative; overflow: hidden; }
+.reviewer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.reviewer.chro::before { background: linear-gradient(90deg, var(--gold), var(--amber)); }
+.reviewer.cio::before { background: linear-gradient(90deg, var(--teal), var(--indigo)); }
+.reviewer.cdo::before { background: linear-gradient(90deg, var(--indigo), var(--rose)); }
+.reviewer.cfо::before { background: linear-gradient(90deg, var(--green), var(--teal)); }
+.reviewer.ta::before { background: linear-gradient(90deg, var(--amber), var(--gold)); }
+.reviewer.cibreview::before { background: linear-gradient(90deg, var(--rose), var(--indigo)); }
+.reviewer-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
+.reviewer-identity { display: flex; align-items: center; gap: 14px; }
+.reviewer-avatar { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; color: var(--bg); flex-shrink: 0; }
+.reviewer-name { font-size: 17px; font-weight: 800; letter-spacing: -0.5px; }
+.reviewer-role { font-size: 10px; font-family: var(--mono); letter-spacing: 2px; color: var(--text-3); text-transform: uppercase; margin-top: 3px; }
+.reviewer-verdict { display: flex; align-items: center; gap: 8px; }
+.verdict-score { font-size: 32px; font-weight: 800; letter-spacing: -2px; }
+.verdict-lbl { font-size: 9px; font-family: var(--mono); letter-spacing: 1.5px; color: var(--text-3); }
+.reviewer-quote { font-family: var(--serif); font-size: 17px; font-style: italic; color: var(--text); line-height: 1.7; border-left: 3px solid; padding-left: 16px; margin-bottom: 16px; }
+.reviewer-finds { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.reviewer-find { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 8px; padding: 12px; }
+.find-label { font-size: 9px; font-family: var(--mono); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+.find-text { font-size: 12px; color: var(--text-2); line-height: 1.6; }
+@media(max-width:800px) { .reviewer-finds { grid-template-columns: 1fr; } }
+
+/* ── PROGRESS ── */
+.pbar { height: 5px; background: var(--border); border-radius: 99px; overflow: hidden; margin-top: 6px; }
+.pfill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--teal), var(--gold)); }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 99px; }
+
+/* ── PRINT / EXPORT ── */
+.export-btn { position: fixed; bottom: 24px; right: 24px; padding: 10px 20px; background: var(--gold); color: var(--bg); border: none; border-radius: 8px; font-family: var(--font); font-size: 12px; font-weight: 700; cursor: pointer; z-index: 99; box-shadow: 0 4px 24px rgba(201,168,76,0.3); transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+.export-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(201,168,76,0.4); }
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<nav class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-orb"></div>
+    <div class="brand-name">TalentSphere OS</div>
+    <div class="brand-sub">Portfolio Documentation</div>
+  </div>
+
+  <div class="sidebar-section-label">Platform</div>
+  <button class="sidebar-link active" onclick="show('p2')" data-sec="p2"><span class="num">P2</span><span class="dot" style="background:var(--gold)"></span>Executive Narrative</button>
+  <button class="sidebar-link" onclick="show('p3')" data-sec="p3"><span class="num">P3</span><span class="dot" style="background:var(--teal)"></span>User Personas</button>
+
+  <div class="sidebar-section-label">Technical</div>
+  <button class="sidebar-link" onclick="show('p4')" data-sec="p4"><span class="num">P4</span><span class="dot" style="background:var(--indigo)"></span>System Architecture</button>
+  <button class="sidebar-link" onclick="show('p5')" data-sec="p5"><span class="num">P5</span><span class="dot" style="background:var(--teal)"></span>Navigation Structure</button>
+  <button class="sidebar-link" onclick="show('p6')" data-sec="p6"><span class="num">P6</span><span class="dot" style="background:var(--gold)"></span>Clickable Page Structure</button>
+  <button class="sidebar-link" onclick="show('p7')" data-sec="p7"><span class="num">P7</span><span class="dot" style="background:var(--amber)"></span>Dashboard Concepts</button>
+  <button class="sidebar-link" onclick="show('p8')" data-sec="p8"><span class="num">P8</span><span class="dot" style="background:var(--rose)"></span>Data Model</button>
+  <button class="sidebar-link" onclick="show('p9')" data-sec="p9"><span class="num">P9</span><span class="dot" style="background:var(--indigo)"></span>AI Capability Map</button>
+
+  <div class="sidebar-section-label">Business</div>
+  <button class="sidebar-link" onclick="show('p10')" data-sec="p10"><span class="num">P10</span><span class="dot" style="background:var(--green)"></span>Business Value</button>
+  <button class="sidebar-link" onclick="show('p11')" data-sec="p11"><span class="num">P11</span><span class="dot" style="background:var(--gold)"></span>Pitch Deck Outline</button>
+
+  <div class="sidebar-section-label">Repository</div>
+  <button class="sidebar-link" onclick="show('p12')" data-sec="p12"><span class="num">P12</span><span class="dot" style="background:var(--teal)"></span>GitHub Structure</button>
+  <button class="sidebar-link" onclick="show('p13')" data-sec="p13"><span class="num">P13</span><span class="dot" style="background:var(--teal)"></span>README.md</button>
+
+  <div class="sidebar-section-label">Strategy</div>
+  <button class="sidebar-link" onclick="show('p14')" data-sec="p14"><span class="num">P14</span><span class="dot" style="background:var(--amber)"></span>Case Study</button>
+  <button class="sidebar-link" onclick="show('p15')" data-sec="p15"><span class="num">P15</span><span class="dot" style="background:var(--gold)"></span>Roadmap</button>
+  <button class="sidebar-link" onclick="show('p16')" data-sec="p16"><span class="num">P16</span><span class="dot" style="background:var(--indigo)"></span>Enterprise Integrations</button>
+  <button class="sidebar-link" onclick="show('p17')" data-sec="p17"><span class="num">P17</span><span class="dot" style="background:var(--rose)"></span>Portfolio Presentation</button>
+
+  <div class="sidebar-section-label">Peer Review</div>
+  <button class="sidebar-link" onclick="show('review')" data-sec="review"><span class="num">★</span><span class="dot" style="background:var(--gold)"></span>Executive Review Panel</button>
+
+  <div class="sidebar-footer">
+    <div class="attr">Concept Lead: <span>Kelebohile Mokoena</span><br>Workforce Transformation<br>Talent Intelligence · HR Systems Innovation<br><br>Public Portfolio Concept Only<br>Original work · Not based on any existing product</div>
+  </div>
+</nav>
+
+<!-- ═══════════════════ CONTENT ═══════════════════ -->
+<main class="content">
+  <div class="topbar">
+    <div class="topbar-crumb">TalentSphere OS · <span id="crumb-text">Executive Narrative</span></div>
+    <div class="topbar-actions">
+      <span class="pill pill-teal">Portfolio Grade</span>
+      <span class="pill pill-gold">Enterprise Concept</span>
+    </div>
+  </div>
+
+  <!-- ═══ PART 2: EXECUTIVE NARRATIVE ═══ -->
+  <section class="section active" id="p2">
+    <div class="part-label">Part 02 · Executive Narrative</div>
+    <h1>The Case for a <span class="gold">Workforce Operating System</span></h1>
+    <p class="lead">Organisations that treat their workforce as a strategic asset — not an administrative cost centre — consistently outperform those that don't. TalentSphere OS exists to make that strategic orientation real, measurable, and scalable.</p>
+
+    <hr>
+    <h2>The Problem We Are Solving</h2>
+    <p>The modern enterprise workforce is managed through a collection of point solutions that were never designed to talk to each other. The average large organisation operates between 7 and 12 separate HR technology tools: an ATS for recruitment, a separate HRIS for records, an LMS for learning, spreadsheets for performance tracking, PowerPoint for executive reporting, and manual processes for everything else.</p>
+    <p>The consequence is invisible. Leaders make workforce decisions based on data that is weeks old, incomplete, or simply wrong. Recruitment teams chase candidates without knowing which sourcing channels actually produce quality hires. CHROs present attrition numbers to the board without the ability to explain why people are leaving — let alone predict who is about to. HR operations teams spend 62% of their time on administrative tasks rather than value-adding work. And technology leaders looking to evaluate HR systems find no unified data model they can build intelligence on top of.</p>
+    <p><strong>This is not an HR problem. It is a business intelligence problem located inside the HR function.</strong></p>
+
+    <div class="grid-3" style="margin: 24px 0;">
+      <div class="card-sm stripe-rose">
+        <div style="font-size:11px;font-family:var(--mono);color:var(--rose);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">Pain Point 1</div>
+        <div style="font-size:14px;font-weight:700;margin-bottom:6px;">Reactive Decision-Making</div>
+        <p style="font-size:12px;margin:0;">By the time a vacancy is flagged, performance data reviewed, or attrition trend identified — the opportunity to act has often already passed. Most HR systems report on the past, not the present.</p>
+      </div>
+      <div class="card-sm stripe-amber">
+        <div style="font-size:11px;font-family:var(--mono);color:var(--amber);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">Pain Point 2</div>
+        <div style="font-size:14px;font-weight:700;margin-bottom:6px;">Disconnected Data</div>
+        <p style="font-size:12px;margin:0;">Candidate data lives in the ATS. Employee data lives in the HRIS. Performance in spreadsheets. Learning in the LMS. No single source of workforce truth exists. No one can see the complete picture.</p>
+      </div>
+      <div class="card-sm stripe-indigo">
+        <div style="font-size:11px;font-family:var(--mono);color:var(--indigo);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">Pain Point 3</div>
+        <div style="font-size:14px;font-weight:700;margin-bottom:6px;">Administrative Burden</div>
+        <p style="font-size:12px;margin:0;">HR professionals spend the majority of their time on process management rather than people strategy. The work that requires human judgment is crowded out by administrative volume that technology should handle.</p>
+      </div>
+    </div>
+
+    <hr>
+    <h2>The TalentSphere OS Response</h2>
+    <p>TalentSphere OS is the first platform built specifically to close the gap between <strong>what leaders know about their workforce</strong> and <strong>what they need to know</strong> — in real time, with predictive capability, at enterprise scale.</p>
+    <p>It is not a better ATS. It is not a more modern HRIS. It is a <strong>Workforce Operating System</strong>: a unified intelligence platform that connects every workforce touchpoint — from the moment a candidate applies to the day an employee exits — and transforms that data into decisions, predictions, and competitive advantage.</p>
+
+    <blockquote>
+      <p>We don't need more HR software. We need a platform that makes our workforce as visible, predictable, and manageable as our financial assets. TalentSphere OS is what that looks like.</p>
+      <cite>— Concept positioning statement · Kelebohile Mokoena</cite>
+    </blockquote>
+
+    <h2>Core Product Philosophy</h2>
+    <div class="grid-2" style="margin-top:16px;">
+      <div class="card-sm stripe-gold">
+        <strong>Intelligence over Administration</strong>
+        <p style="font-size:12px;margin-top:6px;margin-bottom:0;">Every workflow in TalentSphere OS generates an insight, not just a record. Approvals surface patterns. Onboarding completions feed retention models. Interview data trains the matching engine.</p>
+      </div>
+      <div class="card-sm stripe-teal">
+        <strong>Visibility over Spreadsheets</strong>
+        <p style="font-size:12px;margin-top:6px;margin-bottom:0;">Real-time executive dashboards replace the monthly reporting cycle. Any leader — from team manager to CFO — can access the workforce view they need, at the moment they need it.</p>
+      </div>
+      <div class="card-sm stripe-indigo">
+        <strong>Automation over Manual Effort</strong>
+        <p style="font-size:12px;margin-top:6px;margin-bottom:0;">Routine HR operations — screening, scheduling, contract generation, compliance tracking, onboarding provisioning — are automated by default. Human effort is reserved for judgment calls.</p>
+      </div>
+      <div class="card-sm stripe-amber">
+        <strong>Experience over Process</strong>
+        <p style="font-size:12px;margin-top:6px;margin-bottom:0;">Candidates, employees, managers, and executives all experience TalentSphere OS as something built for them — not something they have to work around. Intuitive, fast, and genuinely useful.</p>
+      </div>
+      <div class="card-sm stripe-green">
+        <strong>Measurable Outcomes</strong>
+        <p style="font-size:12px;margin-top:6px;margin-bottom:0;">Every module has a defined business outcome. Recruitment reduces time-to-hire. Attrition prediction saves retention cost. Performance intelligence improves succession coverage. Nothing is deployed without a measurable return.</p>
+      </div>
+      <div class="card-sm stripe-rose">
+        <strong>Human-Centred Technology</strong>
+        <p style="font-size:12px;margin-top:6px;margin-bottom:0;">Technology serves people, not the other way around. TalentSphere OS is designed to amplify human judgment, not replace it. AI recommends; humans decide. Automation handles volume; people handle meaning.</p>
+      </div>
+    </div>
+
+    <hr>
+    <h2>The Strategic Opportunity</h2>
+    <p>The organisations that will define the next decade of financial services, banking, consulting, BPO, and enterprise technology are the ones that crack workforce intelligence first. They will hire faster, retain better, develop talent more precisely, and make board-level people decisions with the same rigour they apply to financial decisions.</p>
+    <p>TalentSphere OS is the platform that enables that. It is designed for organisations that are serious about talent as a competitive advantage — and serious enough to invest in the infrastructure that makes that advantage real and sustainable.</p>
+
+    <div class="metric-row">
+      <div class="metric-box"><div class="metric-val" style="color:var(--teal);">−41%</div><div class="metric-lbl">Time-to-Hire</div><div class="metric-delta up">vs 32-day benchmark</div></div>
+      <div class="metric-box"><div class="metric-val" style="color:var(--gold);">−4.8pp</div><div class="metric-lbl">Attrition</div><div class="metric-delta up">vs industry average</div></div>
+      <div class="metric-box"><div class="metric-val" style="color:var(--indigo);">73%</div><div class="metric-lbl">Automated</div><div class="metric-delta nt">HR admin effort</div></div>
+      <div class="metric-box"><div class="metric-val" style="color:var(--green);">R12M+</div><div class="metric-lbl">Annual Value</div><div class="metric-delta up">per enterprise deployment</div></div>
+    </div>
+  </section>
+
+  <!-- ═══ PART 3: USER PERSONAS ═══ -->
+  <section class="section" id="p3">
+    <div class="part-label">Part 03 · User Personas</div>
+    <h1>Who <span class="gold">TalentSphere OS</span> Serves</h1>
+    <p class="lead">Six primary personas drive every design decision. Each has specific goals, specific pain points, and a specific definition of success. TalentSphere OS is built to serve all of them — simultaneously.</p>
+    <hr>
+
+    <div class="grid-2">
+      <!-- CHRO -->
+      <div class="persona gold">
+        <div class="persona-role">Executive · Chief Human Resources Officer</div>
+        <div class="persona-avatar" style="background:linear-gradient(135deg,var(--gold),var(--amber));">AO</div>
+        <div class="persona-name">Adaeze Obi</div>
+        <div class="persona-title">CHRO · Global Financial Services Group · 14,000 employees · 8 markets</div>
+        <div class="persona-quote">"I spend half my board time defending headcount numbers I can't fully explain. I need a platform that makes my workforce as legible as our balance sheet."</div>
+        <div class="persona-section-label">Strategic Goals</div>
+        <div class="persona-goal">Real-time workforce intelligence that doesn't require a data team to produce</div>
+        <div class="persona-goal">Succession planning coverage above 75% for all senior roles within 18 months</div>
+        <div class="persona-goal">Attrition reduced to single digits across all business units</div>
+        <div class="persona-goal">DE&I metrics visible, credible, and reportable to the board</div>
+        <div class="persona-section-label">Pain Points</div>
+        <div class="persona-pain">Monthly reports that are 2 weeks old by the time they reach the board</div>
+        <div class="persona-pain">No single view of workforce health across all business units simultaneously</div>
+        <div class="persona-pain">Attrition data reported retrospectively — no early warning system</div>
+        <div class="persona-section-label">How TalentSphere OS Wins</div>
+        <div class="persona-win">Daily AI-generated executive briefings replace monthly decks</div>
+        <div class="persona-win">Command Center surfaces attrition risk before exits occur</div>
+        <div class="persona-win">Board-ready workforce scorecards generated on demand</div>
+      </div>
+
+      <!-- EXEC HEAD TA -->
+      <div class="persona teal">
+        <div class="persona-role">Executive · Head of Talent Acquisition</div>
+        <div class="persona-avatar" style="background:linear-gradient(135deg,var(--teal),var(--indigo));">MB</div>
+        <div class="persona-name">Marcus Boateng</div>
+        <div class="persona-title">Executive Head: Talent Acquisition · Pan-African Financial Group</div>
+        <div class="persona-quote">"I'm managing 80 senior hires this year with a team of 7. My biggest problem is that I can't see which of my recruiters is close to burning out, which pipeline is about to collapse, and which offer is about to be declined — until it's too late."</div>
+        <div class="persona-section-label">Strategic Goals</div>
+        <div class="persona-goal">Reduce average time-to-hire from 32 days to under 22 days within 2 quarters</div>
+        <div class="persona-goal">Achieve 90%+ offer acceptance rate through better pre-close intelligence</div>
+        <div class="persona-goal">Build talent pools that eliminate cold-start sourcing for recurring roles</div>
+        <div class="persona-goal">Demonstrate recruitment ROI to the CFO with credible cost-per-hire data</div>
+        <div class="persona-section-label">Pain Points</div>
+        <div class="persona-pain">ATS shows stage movements but not quality, sentiment, or risk</div>
+        <div class="persona-pain">Sourcing strategy built on instinct, not data — no channel ROI visibility</div>
+        <div class="persona-pain">Forecasting future hiring demand requires manual planning sessions</div>
+        <div class="persona-section-label">How TalentSphere OS Wins</div>
+        <div class="persona-win">AI predicts offer acceptance probability before the offer is extended</div>
+        <div class="persona-win">Channel effectiveness analytics show exactly which sources produce quality hires</div>
+        <div class="persona-win">Demand forecasting model projects hiring needs 90 days in advance</div>
+      </div>
+
+      <!-- HEAD OF TA CIB -->
+      <div class="persona indigo">
+        <div class="persona-role">Head of Talent Acquisition · Corporate & Investment Banking</div>
+        <div class="persona-avatar" style="background:linear-gradient(135deg,var(--indigo),var(--rose));">NP</div>
+        <div class="persona-name">Nandi Pietersen</div>
+        <div class="persona-title">Head of TA: CIB Division · Tier 1 South African Bank</div>
+        <div class="persona-quote">"Corporate and Investment Banking talent is a different game. These candidates have options. My competition isn't slow — I need to move faster, look better, and make smarter offers. A generic ATS is an embarrassment at this level."</div>
+        <div class="persona-section-label">Strategic Goals</div>
+        <div class="persona-goal">Build a talent intelligence capability specific to the CIB candidate market</div>
+        <div class="persona-goal">Reduce executive search agency dependency by 40% through internal capability</div>
+        <div class="persona-goal">Create a premium candidate experience that matches the brand promise</div>
+        <div class="persona-goal">Maintain a warm pipeline of 50+ senior candidates at all times</div>
+        <div class="persona-section-label">Pain Points</div>
+        <div class="persona-pain">Senior candidates ghosted after poor application experiences</div>
+        <div class="persona-pain">No CRM for relationship management — relying on Outlook and memory</div>
+        <div class="persona-pain">Hiring managers lack structured interview frameworks at this level</div>
+        <div class="persona-section-label">How TalentSphere OS Wins</div>
+        <div class="persona-win">Candidate CRM with relationship scoring and warm pipeline management</div>
+        <div class="persona-win">Premium candidate portal that reflects brand quality from first touchpoint</div>
+        <div class="persona-win">AI-generated structured interview frameworks by role type and grade</div>
+      </div>
+
+      <!-- CIO / CTIO -->
+      <div class="persona rose">
+        <div class="persona-role">Technology Leadership · CIO / CTIO</div>
+        <div class="persona-avatar" style="background:linear-gradient(135deg,var(--rose),var(--amber));">RN</div>
+        <div class="persona-name">Raj Naidoo</div>
+        <div class="persona-title">Chief Technology & Information Officer · Digital-First Fintech · 3,200 employees</div>
+        <div class="persona-quote">"Any platform we adopt needs to integrate with our existing stack, meet our security requirements, and have an architecture that doesn't create a new data silo. I've killed more HR tech proposals on those grounds than any other."</div>
+        <div class="persona-section-label">Strategic Goals</div>
+        <div class="persona-goal">Adopt platforms that reduce, not increase, integration complexity</div>
+        <div class="persona-goal">Ensure all employee and candidate data meets POPIA and GDPR requirements</div>
+        <div class="persona-goal">Build on API-first architecture that can be extended by internal teams</div>
+        <div class="persona-goal">Deliver measurable technology ROI within 12 months of deployment</div>
+        <div class="persona-section-label">Pain Points</div>
+        <div class="persona-pain">Most HR platforms are black boxes — no API access, no data portability</div>
+        <div class="persona-pain">New systems always create new integration work that falls on the technology team</div>
+        <div class="persona-pain">Security and compliance reviews fail on data residency and access controls</div>
+        <div class="persona-section-label">How TalentSphere OS Wins</div>
+        <div class="persona-win">API-first architecture with full data export and external BI integration</div>
+        <div class="persona-win">POPIA-aligned data model with audit trails and consent management built in</div>
+        <div class="persona-win">Pre-built connectors for SAP, Microsoft 365, and major payroll platforms</div>
+      </div>
+
+      <!-- CDO -->
+      <div class="persona amber">
+        <div class="persona-role">Chief Data Officer · People Analytics Lead</div>
+        <div class="persona-avatar" style="background:linear-gradient(135deg,var(--amber),var(--green));">LS</div>
+        <div class="persona-name">Lerato Sithole</div>
+        <div class="persona-title">Head of Workforce Analytics & People Intelligence · Financial Services</div>
+        <div class="persona-quote">"I can produce beautiful workforce reports. What I can't do is predict. What I need is a platform that has the data model, the event history, and the AI infrastructure to let me build predictive models — not just dashboards."</div>
+        <div class="persona-section-label">Strategic Goals</div>
+        <div class="persona-goal">Build a credible attrition prediction model trusted by Finance and the ExCo</div>
+        <div class="persona-goal">Move the people analytics function from reporting to forecasting within 12 months</div>
+        <div class="persona-goal">Establish a single workforce data warehouse that all HR systems feed into</div>
+        <div class="persona-goal">Demonstrate that people data has the same analytical rigour as financial data</div>
+        <div class="persona-section-label">Pain Points</div>
+        <div class="persona-pain">Data scattered across 7 systems with incompatible schemas and no unified ID</div>
+        <div class="persona-pain">Historical event data not captured — can't train models on patterns over time</div>
+        <div class="persona-pain">Finance leadership sceptical of HR data quality — won't act on it</div>
+        <div class="persona-section-label">How TalentSphere OS Wins</div>
+        <div class="persona-win">Unified workforce data model with consistent employee IDs across all modules</div>
+        <div class="persona-win">Event stream architecture captures every workforce signal for model training</div>
+        <div class="persona-win">Pre-built predictive models with confidence scores Finance can trust</div>
+      </div>
+
+      <!-- CFO -->
+      <div class="persona green">
+        <div class="persona-role">Finance Leadership · CFO</div>
+        <div class="persona-avatar" style="background:linear-gradient(135deg,var(--green),var(--teal));">SD</div>
+        <div class="persona-name">Siphamandla Dlovu</div>
+        <div class="persona-title">CFO · Corporate Banking Group · R8.4B revenue · 9,600 employees</div>
+        <div class="persona-quote">"Workforce cost is our single largest expense line — over 60% of operating costs. I approve headcount plans on faith and receive attrition data after the cost has already landed. I need workforce intelligence that functions like financial intelligence."</div>
+        <div class="persona-section-label">Strategic Goals</div>
+        <div class="persona-goal">Workforce cost forecasting integrated with annual financial planning cycle</div>
+        <div class="persona-goal">Headcount ROI metrics that quantify return on each business unit's people investment</div>
+        <div class="persona-goal">Predictive attrition data that allows financial provisioning for replacement cost</div>
+        <div class="persona-goal">Recruitment cost per hire tracked alongside budget variance in real time</div>
+        <div class="persona-section-label">Pain Points</div>
+        <div class="persona-pain">Workforce cost surprises at year-end that could have been forecast earlier</div>
+        <div class="persona-pain">No line of sight from HR activity to business performance outcomes</div>
+        <div class="persona-pain">Headcount approval process is slow and lacks data to justify decisions quickly</div>
+        <div class="persona-section-label">How TalentSphere OS Wins</div>
+        <div class="persona-win">Payroll visibility layer integrates with financial planning tools</div>
+        <div class="persona-win">ROI dashboard translates people metrics into financial language</div>
+        <div class="persona-win">Attrition cost calculator quantifies replacement cost in real time</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PART 4: SYSTEM ARCHITECTURE ═══ -->
+  <section class="section" id="p4">
+    <div class="part-label">Part 04 · System Architecture</div>
+    <h1>Platform <span class="gold">Architecture</span></h1>
+    <p class="lead">TalentSphere OS is designed as a cloud-native, modular, API-first platform. Every layer is independently scalable, observable, and replaceable. The unified data model is the foundation everything else builds on.</p>
+    <hr>
+
+    <h2>Architectural Principles</h2>
+    <div class="grid-3" style="margin:16px 0 24px;">
+      <div class="feat"><div class="feat-icon">🧩</div><div class="feat-name">Modular Microservices</div><div class="feat-desc">Each module (Recruitment, Lifecycle, Performance, Learning etc.) is an independent service. Deployed separately, scaled independently, updated without platform downtime.</div></div>
+      <div class="feat"><div class="feat-icon">🔌</div><div class="feat-name">API-First Design</div><div class="feat-desc">Every capability exposed via versioned REST and GraphQL APIs. External BI tools, existing HR systems, and custom applications can integrate without vendor lock-in.</div></div>
+      <div class="feat"><div class="feat-icon">🌊</div><div class="feat-name">Event-Driven Intelligence</div><div class="feat-desc">Every workforce action generates an event. Events stream to the data warehouse, feed the AI layer, and trigger automated workflows. No batch processing — real-time by default.</div></div>
+      <div class="feat"><div class="feat-icon">🛡️</div><div class="feat-name">Security by Design</div><div class="feat-desc">POPIA, GDPR, and SOC2 compliance built in. Data residency controls, role-based access, field-level encryption, and complete audit trails from day one.</div></div>
+      <div class="feat"><div class="feat-icon">🤖</div><div class="feat-name">AI-Native Infrastructure</div><div class="feat-desc">Sphere AI is not a plugin — it is a first-class architectural layer. Every module is instrumented to feed the intelligence engine and receive AI recommendations.</div></div>
+      <div class="feat"><div class="feat-icon">🌍</div><div class="feat-name">Multi-Tenant, Multi-Market</div><div class="feat-desc">Single platform instance supports multiple business units, geographies, and legal entities. Regional compliance rules applied per tenant. Full data segregation.</div></div>
+    </div>
+
+    <h2>Technology Stack — Full Architecture</h2>
+    <div class="arch-stack">
+      <div class="arch-layer" style="background:rgba(201,168,76,0.05);border-color:rgba(201,168,76,0.2);">
+        <div class="arch-layer-name" style="color:var(--gold);">EXPERIENCE LAYER</div>
+        <div class="arch-chips">
+          <span class="arch-chip" style="background:rgba(201,168,76,0.1);color:var(--gold);border:1px solid rgba(201,168,76,0.25);">React 18 / Next.js</span>
+          <span class="arch-chip" style="background:rgba(201,168,76,0.1);color:var(--gold);border:1px solid rgba(201,168,76,0.25);">TypeScript</span>
+          <span class="arch-chip" style="background:rgba(201,168,76,0.1);color:var(--gold);border:1px solid rgba(201,168,76,0.25);">Mobile (React Native)</span>
+          <span class="arch-chip" style="background:rgba(201,168,76,0.1);color:var(--gold);border:1px solid rgba(201,168,76,0.25);">Candidate Portal</span>
+          <span class="arch-chip" style="background:rgba(201,168,76,0.1);color:var(--gold);border:1px solid rgba(201,168,76,0.25);">Executive Dashboard</span>
+        </div>
+      </div>
+      <div class="arch-arrow">↕</div>
+      <div class="arch-layer" style="background:rgba(129,140,248,0.05);border-color:rgba(129,140,248,0.2);">
+        <div class="arch-layer-name" style="color:var(--indigo);">INTELLIGENCE LAYER</div>
+        <div class="arch-chips">
+          <span class="arch-chip" style="background:var(--indigo-dim);color:var(--indigo);border:1px solid rgba(129,140,248,0.25);">Sphere AI Engine</span>
+          <span class="arch-chip" style="background:var(--indigo-dim);color:var(--indigo);border:1px solid rgba(129,140,248,0.25);">LLM API (Claude / GPT)</span>
+          <span class="arch-chip" style="background:var(--indigo-dim);color:var(--indigo);border:1px solid rgba(129,140,248,0.25);">Predictive ML Models</span>
+          <span class="arch-chip" style="background:var(--indigo-dim);color:var(--indigo);border:1px solid rgba(129,140,248,0.25);">Vector Embeddings</span>
+          <span class="arch-chip" style="background:var(--indigo-dim);color:var(--indigo);border:1px solid rgba(129,140,248,0.25);">Recommendation Engine</span>
+          <span class="arch-chip" style="background:var(--indigo-dim);color:var(--indigo);border:1px solid rgba(129,140,248,0.25);">NLP / Sentiment</span>
+        </div>
+      </div>
+      <div class="arch-arrow">↕</div>
+      <div class="arch-layer" style="background:rgba(45,212,191,0.05);border-color:rgba(45,212,191,0.2);">
+        <div class="arch-layer-name" style="color:var(--teal);">APPLICATION LAYER</div>
+        <div class="arch-chips">
+          <span class="arch-chip" style="background:var(--teal-dim);color:var(--teal);border:1px solid rgba(45,212,191,0.25);">Recruitment Svc</span>
+          <span class="arch-chip" style="background:var(--teal-dim);color:var(--teal);border:1px solid rgba(45,212,191,0.25);">Lifecycle Svc</span>
+          <span class="arch-chip" style="background:var(--teal-dim);color:var(--teal);border:1px solid rgba(45,212,191,0.25);">Performance Svc</span>
+          <span class="arch-chip" style="background:var(--teal-dim);color:var(--teal);border:1px solid rgba(45,212,191,0.25);">Learning Svc</span>
+          <span class="arch-chip" style="background:var(--teal-dim);color:var(--teal);border:1px solid rgba(45,212,191,0.25);">HR Ops Svc</span>
+          <span class="arch-chip" style="background:var(--teal-dim);color:var(--teal);border:1px solid rgba(45,212,191,0.25);">Workforce Planning Svc</span>
+          <span class="arch-chip" style="background:var(--teal-dim);color:var(--teal);border:1px solid rgba(45,212,191,0.25);">Payroll Layer Svc</span>
+          <span class="arch-chip" style="background:var(--teal-dim);color:var(--teal);border:1px solid rgba(45,212,191,0.25);">Notification Engine</span>
+        </div>
+      </div>
+      <div class="arch-arrow">↕</div>
+      <div class="arch-layer">
+        <div class="arch-layer-name" style="color:var(--text-2);">API GATEWAY</div>
+        <div class="arch-chips">
+          <span class="arch-chip" style="background:var(--bg-elevated);color:var(--text-2);border:1px solid var(--border-mid);">REST APIs</span>
+          <span class="arch-chip" style="background:var(--bg-elevated);color:var(--text-2);border:1px solid var(--border-mid);">GraphQL</span>
+          <span class="arch-chip" style="background:var(--bg-elevated);color:var(--text-2);border:1px solid var(--border-mid);">WebSockets (live)</span>
+          <span class="arch-chip" style="background:var(--bg-elevated);color:var(--text-2);border:1px solid var(--border-mid);">Auth / OAuth 2.0</span>
+          <span class="arch-chip" style="background:var(--bg-elevated);color:var(--text-2);border:1px solid var(--border-mid);">Rate Limiting</span>
+          <span class="arch-chip" style="background:var(--bg-elevated);color:var(--text-2);border:1px solid var(--border-mid);">Versioning</span>
+        </div>
+      </div>
+      <div class="arch-arrow">↕</div>
+      <div class="arch-layer" style="background:rgba(251,113,133,0.04);border-color:rgba(251,113,133,0.15);">
+        <div class="arch-layer-name" style="color:var(--rose);">DATA LAYER</div>
+        <div class="arch-chips">
+          <span class="arch-chip" style="background:var(--rose-dim);color:var(--rose);border:1px solid rgba(251,113,133,0.25);">PostgreSQL (OLTP)</span>
+          <span class="arch-chip" style="background:var(--rose-dim);color:var(--rose);border:1px solid rgba(251,113,133,0.25);">Snowflake (Warehouse)</span>
+          <span class="arch-chip" style="background:var(--rose-dim);color:var(--rose);border:1px solid rgba(251,113,133,0.25);">Redis (Cache)</span>
+          <span class="arch-chip" style="background:var(--rose-dim);color:var(--rose);border:1px solid rgba(251,113,133,0.25);">Kafka (Event Stream)</span>
+          <span class="arch-chip" style="background:var(--rose-dim);color:var(--rose);border:1px solid rgba(251,113,133,0.25);">S3 (Documents)</span>
+          <span class="arch-chip" style="background:var(--rose-dim);color:var(--rose);border:1px solid rgba(251,113,133,0.25);">Elasticsearch</span>
+          <span class="arch-chip" style="background:var(--rose-dim);color:var(--rose);border:1px solid rgba(251,113,133,0.25);">Audit Log Store</span>
+        </div>
+      </div>
+      <div class="arch-arrow">↕</div>
+      <div class="arch-layer" style="background:rgba(34,197,94,0.03);border-color:rgba(34,197,94,0.15);">
+        <div class="arch-layer-name" style="color:var(--green);">INFRASTRUCTURE</div>
+        <div class="arch-chips">
+          <span class="arch-chip" style="background:rgba(34,197,94,0.08);color:var(--green);border:1px solid rgba(34,197,94,0.2);">AWS / Azure / GCP</span>
+          <span class="arch-chip" style="background:rgba(34,197,94,0.08);color:var(--green);border:1px solid rgba(34,197,94,0.2);">Kubernetes</span>
+          <span class="arch-chip" style="background:rgba(34,197,94,0.08);color:var(--green);border:1px solid rgba(34,197,94,0.2);">Terraform (IaC)</span>
+          <span class="arch-chip" style="background:rgba(34,197,94,0.08);color:var(--green);border:1px solid rgba(34,197,94,0.2);">CI/CD Pipeline</span>
+          <span class="arch-chip" style="background:rgba(34,197,94,0.08);color:var(--green);border:1px solid rgba(34,197,94,0.2);">SOC2 Controls</span>
+          <span class="arch-chip" style="background:rgba(34,197,94,0.08);color:var(--green);border:1px solid rgba(34,197,94,0.2);">WAF / DDoS Protection</span>
+        </div>
+      </div>
+    </div>
+
+    <h2>Deployment Model</h2>
+    <div class="grid-3" style="margin-top:12px;">
+      <div class="card-sm stripe-teal"><strong>SaaS (Cloud-Hosted)</strong><p style="font-size:12px;margin-top:6px;margin-bottom:0;">Fully managed by TalentSphere. Automatic updates, 99.9% SLA. Recommended for mid-market and standard enterprise deployments.</p></div>
+      <div class="card-sm stripe-gold"><strong>Private Cloud</strong><p style="font-size:12px;margin-top:6px;margin-bottom:0;">Dedicated cloud instance within client's cloud account (AWS/Azure). Full data residency control. Preferred for regulated financial services.</p></div>
+      <div class="card-sm stripe-indigo"><strong>On-Premise (Hybrid)</strong><p style="font-size:12px;margin-top:6px;margin-bottom:0;">Core data layer on-premise, application and AI layers cloud-hosted. Available for institutions with strict data sovereignty requirements.</p></div>
+    </div>
+  </section>
+
+  <!-- ═══ PART 5: NAVIGATION STRUCTURE ═══ -->
+  <section class="section" id="p5">
+    <div class="part-label">Part 05 · Navigation Structure</div>
+    <h1>Information <span class="gold">Architecture</span></h1>
+    <p class="lead">TalentSphere OS uses a role-adaptive navigation model. What you see depends on who you are. The platform surfaces relevant modules, hides irrelevant ones, and adapts depth of access based on role and permission level.</p>
+    <hr>
+    <h2>Global Navigation — Top Bar</h2>
+    <p>The persistent top navigation bar provides access to all primary modules, a global search, the Sphere AI copilot, live status indicators, and user profile controls. Present across all views at all times.</p>
+    <div class="card-sm" style="font-family:var(--mono);font-size:12px;color:var(--text-2);line-height:2;margin:16px 0;">
+      <span style="color:var(--gold);">TalentSphere OS</span> · Command Center · Recruitment · Lifecycle · Performance · Learning · Workforce Intelligence · HR Ops · Employee Portal · Manager Hub · <span style="color:var(--teal);">[ 🔍 Search ]</span> · <span style="color:var(--indigo);">[ ✦ Sphere AI ]</span> · <span style="color:var(--text-3);">[ User Avatar ]</span>
+    </div>
+
+    <h2>Module-Level Navigation</h2>
+    <p>Within each module, a secondary tab bar provides access to sub-views. Sub-navigation is contextual and collapses to a hamburger menu at narrower viewports.</p>
+
+    <table>
+      <thead><tr><th>Module</th><th>Sub-Pages</th><th>Primary User</th></tr></thead>
+      <tbody>
+        <tr><td class="td-name">Executive Command Center</td><td>Overview · KPIs · Heatmaps · Risk Alerts · Scorecards · BU Comparison · AI Briefings</td><td><span class="badge bg">CHRO · CEO · CFO</span></td></tr>
+        <tr><td class="td-name">Recruitment Intelligence</td><td>Pipeline · Candidate CRM · Sourcing · Interview Hub · Analytics · Forecast · Talent Pools</td><td><span class="badge bt">TA Team · Hiring Managers</span></td></tr>
+        <tr><td class="td-name">Employee Lifecycle</td><td>Onboarding · Internal Mobility · Engagement · Development · Retention Hub · Offboarding</td><td><span class="badge bi">HR Ops · HRBPs · Managers</span></td></tr>
+        <tr><td class="td-name">Performance & Talent</td><td>Review Cycles · 9-Box Grid · Succession · Calibration · Readiness Scoring · Talent Reviews</td><td><span class="badge bg">CHRO · HRBPs · Managers</span></td></tr>
+        <tr><td class="td-name">Learning & Growth</td><td>My Learning · Journeys · Certifications · Skill Map · Career Pathways · Growth Plans</td><td><span class="badge bt">All Employees · L&D Team</span></td></tr>
+        <tr><td class="td-name">Workforce Intelligence</td><td>Overview · Attrition · Headcount · Productivity · Diversity · Forecasting · Custom Reports</td><td><span class="badge bi">CDO · CHRO · Analytics</span></td></tr>
+        <tr><td class="td-name">HR Operations</td><td>Approvals · Compliance · Workflows · Document Hub · Employee Services · Audit Trail</td><td><span class="badge bg">HR Ops · Compliance</span></td></tr>
+        <tr><td class="td-name">Employee Portal</td><td>My Dashboard · My Goals · Leave · Payslips · Recognition · Requests · Learning</td><td><span class="badge bgn">All Employees</span></td></tr>
+        <tr><td class="td-name">Manager Hub</td><td>My Team · Approvals · Team Insights · Workforce Actions · Planning · AI Nudges</td><td><span class="badge bt">All Managers</span></td></tr>
+      </tbody>
+    </table>
+
+    <h2>Role-Based Navigation Profiles</h2>
+    <div class="grid-3" style="margin-top:12px;">
+      <div class="card-sm stripe-gold"><div style="font-size:12px;font-weight:700;margin-bottom:8px;">Executive View (CHRO / CEO / CFO)</div><div style="font-size:11px;color:var(--text-2);line-height:1.8;">Full access to Command Center and all intelligence dashboards. Read access to all modules. AI Briefings on by default. No operational approvals in default view.</div></div>
+      <div class="card-sm stripe-teal"><div style="font-size:12px;font-weight:700;margin-bottom:8px;">Recruiter View</div><div style="font-size:11px;color:var(--text-2);line-height:1.8;">Full Recruitment module access. Candidate CRM, pipeline, interview scheduling. Read access to Workforce Intelligence relevant to their roles. No compensation visibility.</div></div>
+      <div class="card-sm stripe-indigo"><div style="font-size:12px;font-weight:700;margin-bottom:8px;">Manager View</div><div style="font-size:11px;color:var(--text-2);line-height:1.8;">Manager Hub primary. Team-level performance and learning. Approval workflows. Team analytics. No cross-BU data access. Sphere AI available for team queries.</div></div>
+    </div>
+  </section>
+
+  <!-- ═══ PART 6: PAGE STRUCTURE ═══ -->
+  <section class="section" id="p6">
+    <div class="part-label">Part 06 · Clickable Page Structure</div>
+    <h1>Page <span class="gold">Blueprints</span></h1>
+    <p class="lead">Every page in TalentSphere OS follows a consistent structural grammar. Headers anchor the context. KPI strips provide immediate orientation. Content zones house the primary action. AI assistance is always available on the right.</p>
+    <hr>
+    <h2>Universal Page Grammar</h2>
+    <div class="card" style="font-family:var(--mono);font-size:12px;line-height:2.2;color:var(--text-2);">
+      <div style="display:grid;grid-template-columns:1fr;gap:4px;">
+        <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:6px;padding:10px 14px;color:var(--gold);">TOPBAR — Global navigation · Sphere AI · Live status · User profile</div>
+        <div style="background:rgba(45,212,191,0.06);border:1px solid rgba(45,212,191,0.15);border-radius:6px;padding:10px 14px;color:var(--teal);">PAGE HEADER — Module title · Subtitle · Breadcrumb · Page-level actions</div>
+        <div style="background:rgba(129,140,248,0.06);border:1px solid rgba(129,140,248,0.15);border-radius:6px;padding:10px 14px;color:var(--indigo);">KPI STRIP — 4–6 primary metrics · Sparklines · Deltas · Context labels</div>
+        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;padding:10px 14px;">TAB ROW — Secondary navigation (optional) · Filter controls · Search</div>
+        <div style="background:rgba(251,113,133,0.04);border:1px solid rgba(251,113,133,0.12);border-radius:6px;padding:10px 14px;color:var(--rose);">PRIMARY CONTENT ZONE — Main cards / table / kanban / chart. Variable layout by module.</div>
+        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;padding:10px 14px;">SECONDARY CONTENT — Supplementary insights · AI recommendations · Risk alerts</div>
+      </div>
+    </div>
+
+    <h2>12 Module Page Blueprints</h2>
+    <div class="grid-2" style="margin-top:16px;">
+      <div class="card stripe-gold"><div style="font-size:13px;font-weight:800;color:var(--gold);margin-bottom:8px;">⬛ Executive Command Center</div><div style="font-size:11px;color:var(--text-2);line-height:1.8;">Header with date/context → 4-metric KPI strip (Headcount, TTH, Attrition, Open Roles) → [Row 1] Talent Heatmap (2/3) + Executive Scorecard (1/3) → [Row 2] Risk Indicators + BU Comparison Table + Live Activity Feed → Bottom: AI Daily Briefing Card</div></div>
+      <div class="card stripe-teal"><div style="font-size:13px;font-weight:800;color:var(--teal);margin-bottom:8px;">🔍 Recruitment Intelligence</div><div style="font-size:11px;color:var(--text-2);line-height:1.8;">Header → 4 metrics (Applicants, Conversion, Offer Accept, Cost/Hire) → Tab row (Pipeline | CRM | Analytics | Forecast) → Pipeline: Kanban by stage → CRM: Sortable candidate table with AI match scores → Analytics: Source effectiveness + Recruiter productivity + Funnel chart → Forecast: BU demand + AI recommendations</div></div>
+      <div class="card stripe-indigo"><div style="font-size:13px;font-weight:800;color:var(--indigo);margin-bottom:8px;">🔄 Employee Lifecycle</div><div style="font-size:11px;color:var(--text-2);line-height:1.8;">Header → 4 metrics (In Onboarding, 90d Retention, Internal Moves, Exit Rate) → [Row 1] Onboarding Journey Timeline + Internal Mobility Board → [Row 2] Engagement Pulse + Retention Risk Table → [Row 3] Offboarding tracker + Exit interview AI summary</div></div>
+      <div class="card stripe-rose"><div style="font-size:13px;font-weight:800;color:var(--rose);margin-bottom:8px;">📈 Performance & Talent</div><div style="font-size:11px;color:var(--text-2);line-height:1.8;">Header → 3 metric rings (Completion %, Distribution, Succession Coverage) → 9-Box Talent Grid (interactive, AI-calibrated, full viewport) → Succession table by grade level → Calibration workspace with manager scoring → Readiness scoring summary</div></div>
+      <div class="card stripe-amber"><div style="font-size:13px;font-weight:800;color:var(--amber);margin-bottom:8px;">🎓 Learning & Growth</div><div style="font-size:11px;color:var(--text-2);line-height:1.8;">Header → 4 metrics (Active Learners, Completion %, Certifications, Avg Hours) → Active journeys with progress bars → Skill intelligence map (gap / strength / emerging) → My Career Pathway visual → Certification tracker with expiry warnings</div></div>
+      <div class="card stripe-teal"><div style="font-size:13px;font-weight:800;color:var(--teal);margin-bottom:8px;">🧠 Workforce Intelligence</div><div style="font-size:11px;color:var(--text-2);line-height:1.8;">Header → 4 intelligence metrics (Attrition Prediction, Capacity, Productivity Index, Workforce Health Score) → Attrition prediction by BU with intervention alerts → Workforce planning 12-month outlook → Diversity analytics → Custom report builder → Export to Power BI / Tableau</div></div>
+      <div class="card stripe-gold"><div style="font-size:13px;font-weight:800;color:var(--gold);margin-bottom:8px;">⚙️ HR Operations</div><div style="font-size:11px;color:var(--text-2);line-height:1.8;">Header → 4 metrics (Pending Approvals, Automation Rate, Compliance Score, Service Requests) → Approval queue with 1-click actions → Workflow builder / status dashboard → Document hub with AI extraction → Compliance tracker with deadline calendar</div></div>
+      <div class="card stripe-indigo"><div style="font-size:13px;font-weight:800;color:var(--indigo);margin-bottom:8px;">💳 Payroll Experience</div><div style="font-size:11px;color:var(--text-2);line-height:1.8;">Employee view: My payslips, YTD summary, deduction breakdown, notifications → Manager view: Team cost summary, anomaly alerts → Executive view: Total workforce cost by BU, forecast vs actual, variance flagging</div></div>
+      <div class="card stripe-green"><div style="font-size:13px;font-weight:800;color:var(--green);margin-bottom:8px;">👤 Employee Portal</div><div style="font-size:11px;color:var(--text-2);line-height:1.8;">Personalised greeting banner → Stats row (Leave, Goals %, Recognitions, Performance) → My Goals progress → Recognition feed → Quick actions grid (Leave, Payslip, Learning, Recognise, WFH request) → Company announcements</div></div>
+      <div class="card stripe-gold"><div style="font-size:13px;font-weight:800;color:var(--gold);margin-bottom:8px;">👥 Manager Hub</div><div style="font-size:11px;color:var(--text-2);line-height:1.8;">Team overview strip → AI team insights panel (3 proactive nudges) → Approval queue (1-click) → Team performance scorecard → Learning compliance tracker → Sphere AI available for "What should I know about my team this week?"</div></div>
+      <div class="card stripe-teal"><div style="font-size:13px;font-weight:800;color:var(--teal);margin-bottom:8px;">💬 Collaboration Layer</div><div style="font-size:11px;color:var(--text-2);line-height:1.8;">Communities (functional groups) → Announcements feed (HR broadcast + team updates) → Knowledge base (searchable HR policies, FAQs) → Recognition wall → Event calendar → AI-powered policy search</div></div>
+      <div class="card stripe-indigo"><div style="font-size:13px;font-weight:800;color:var(--indigo);margin-bottom:8px;">✦ Sphere AI Copilot (Side Panel)</div><div style="font-size:11px;color:var(--text-2);line-height:1.8;">Slides in from right on any page → Persistent context awareness (knows current module) → Quick-chip suggestions per module context → Conversation history within session → Generative summaries, predictions, action recommendations, drafts</div></div>
+    </div>
+  </section>
+
+  <!-- ═══ PART 7: DASHBOARD CONCEPTS ═══ -->
+  <section class="section" id="p7">
+    <div class="part-label">Part 07 · Dashboard Concepts</div>
+    <h1>Dashboard <span class="gold">Design Language</span></h1>
+    <p class="lead">TalentSphere OS uses a premium banking-grade aesthetic: dark background, structured white space, gold and teal accents, and data visualisations that communicate meaning at first glance. Every chart choice is intentional.</p>
+    <hr>
+
+    <h2>Visual Design Principles</h2>
+    <div class="grid-2" style="margin:16px 0;">
+      <div class="card-sm"><strong>Dark Premium Palette</strong><p style="font-size:12px;margin-top:6px;margin-bottom:0;">Void black (#080b12) backgrounds with layered surface depths. Gold (#c9a84c) for primary KPIs and key actions. Teal (#2dd4bf) for positive trends. Rose (#fb7185) for risk and alerts. Indigo (#818cf8) for intelligence and AI elements.</p></div>
+      <div class="card-sm"><strong>Typography System</strong><p style="font-size:12px;margin-top:6px;margin-bottom:0;"><strong>Syne</strong> for display headings and navigation — geometric, distinctive, authoritative. <strong>DM Mono</strong> for data labels, metrics, and system status — clinical precision. <strong>Crimson Pro</strong> for narrative content — warm, readable, human.</p></div>
+      <div class="card-sm"><strong>Spatial Hierarchy</strong><p style="font-size:12px;margin-top:6px;margin-bottom:0;">KPI cards above the fold. Primary data in the dominant column. Supplementary insights to the right. AI panel always accessible but never intrusive. Information density calibrated for executive consumption — enough to act, not enough to overwhelm.</p></div>
+      <div class="card-sm"><strong>Motion & Animation</strong><p style="font-size:12px;margin-top:6px;margin-bottom:0;">Page transitions fade up at 0.35s. Progress bars animate on load. The Sphere AI orb continuously rotates. Live feed pulses. Hover states shift border luminosity. Every motion has semantic purpose — no animation for decoration.</p></div>
+    </div>
+
+    <h2>Key Visualisation Types by Module</h2>
+    <table>
+      <thead><tr><th>Module</th><th>Primary Visualisation</th><th>Rationale</th></tr></thead>
+      <tbody>
+        <tr><td class="td-name">Command Center</td><td>KPI cards with sparklines + heatmap grid</td><td>Executives need trend + absolute value simultaneously. Heatmaps reveal patterns in dense data without tables.</td></tr>
+        <tr><td class="td-name">Recruitment</td><td>Kanban pipeline + funnel chart</td><td>Pipeline is a process flow — Kanban is the natural mental model. Funnel quantifies conversion loss at each stage.</td></tr>
+        <tr><td class="td-name">Performance</td><td>9-Box grid (interactive) + distribution bars</td><td>9-Box is the globally recognised talent calibration framework. Distribution bars communicate population spread immediately.</td></tr>
+        <tr><td class="td-name">Workforce Intelligence</td><td>Predictive risk bars + capacity bar chart</td><td>Risk must be communicated proportionally. Capacity planning needs temporal context — hence quarterly bar groupings.</td></tr>
+        <tr><td class="td-name">Learning</td><td>Progress bars + skill gap heat indicators</td><td>Progress is a completion journey — bars communicate it accurately. Skill gaps need colour-coded severity to drive action.</td></tr>
+        <tr><td class="td-name">HR Ops</td><td>Queue list + automation status indicators</td><td>Operational workflows are task lists — tabular view is most scannable. Status indicators communicate live system health.</td></tr>
+        <tr><td class="td-name">Employee Portal</td><td>Personal metrics grid + goal progress rings</td><td>Employees relate to personal numbers. Rings communicate completion elegantly at a glance.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Accessibility & Responsive Behaviour</h2>
+    <p>TalentSphere OS maintains WCAG 2.1 AA compliance. All colour-coding is supplemented with iconography and text labels — the platform is never relying on colour alone to communicate meaning. The layout uses a responsive grid that collapses from 4-column to 2-column to 1-column at tablet and mobile breakpoints. The executive dashboard is specifically optimised for large-format displays (1920×1080+) used in boardrooms and executive presentations.</p>
+  </section>
+
+  <!-- ═══ PART 8: DATA MODEL ═══ -->
+  <section class="section" id="p8">
+    <div class="part-label">Part 08 · Data Model</div>
+    <h1>Unified Workforce <span class="gold">Data Model</span></h1>
+    <p class="lead">The unified data model is the backbone of TalentSphere OS. A consistent, globally unique employee identifier connects every module — ensuring that the person who applied, was hired, onboarded, performed, learned, and eventually departed is the same identity in every system.</p>
+    <hr>
+    <h2>Core Entities</h2>
+    <div class="grid-3" style="margin:16px 0;">
+
+      <div class="entity">
+        <div class="entity-header" style="background:rgba(201,168,76,0.08);color:var(--gold);">EMPLOYEE <span class="badge bg">Core</span></div>
+        <div class="entity-field"><span class="field-name pk">employee_id (PK)</span><span class="field-type">UUID</span></div>
+        <div class="entity-field"><span class="field-name">first_name, last_name</span><span class="field-type">VARCHAR</span></div>
+        <div class="entity-field"><span class="field-name">employment_start_date</span><span class="field-type">DATE</span></div>
+        <div class="entity-field"><span class="field-name">grade_level</span><span class="field-type">ENUM</span></div>
+        <div class="entity-field"><span class="field-name fk">business_unit_id (FK)</span><span class="field-type">UUID</span></div>
+        <div class="entity-field"><span class="field-name fk">manager_id (FK)</span><span class="field-type">UUID</span></div>
+        <div class="entity-field"><span class="field-name">employment_status</span><span class="field-type">ENUM</span></div>
+        <div class="entity-field"><span class="field-name">location</span><span class="field-type">VARCHAR</span></div>
+        <div class="entity-field"><span class="field-name">attrition_risk_score</span><span class="field-type">FLOAT</span></div>
+        <div class="entity-field"><span class="field-name">ai_performance_trajectory</span><span class="field-type">JSON</span></div>
+      </div>
+
+      <div class="entity">
+        <div class="entity-header" style="background:rgba(45,212,191,0.06);color:var(--teal);">CANDIDATE <span class="badge bt">Recruitment</span></div>
+        <div class="entity-field"><span class="field-name pk">candidate_id (PK)</span><span class="field-type">UUID</span></div>
+        <div class="entity-field"><span class="field-name">full_name, email</span><span class="field-type">VARCHAR</span></div>
+        <div class="entity-field"><span class="field-name fk">requisition_id (FK)</span><span class="field-type">UUID</span></div>
+        <div class="entity-field"><span class="field-name">source_channel</span><span class="field-type">ENUM</span></div>
+        <div class="entity-field"><span class="field-name">pipeline_stage</span><span class="field-type">ENUM</span></div>
+        <div class="entity-field"><span class="field-name">ai_match_score</span><span class="field-type">FLOAT</span></div>
+        <div class="entity-field"><span class="field-name">offer_accept_probability</span><span class="field-type">FLOAT</span></div>
+        <div class="entity-field"><span class="field-name">resume_embedding</span><span class="field-type">VECTOR</span></div>
+        <div class="entity-field"><span class="field-name">converted_to_employee_id</span><span class="field-type">UUID</span></div>
+        <div class="entity-field"><span class="field-name">gdpr_consent</span><span class="field-type">BOOLEAN</span></div>
+      </div>
+
+      <div class="entity">
+        <div class="entity-header" style="background:rgba(129,140,248,0.06);color:var(--indigo);">PERFORMANCE_REVIEW <span class="badge bi">Talent</span></div>
+        <div class="entity-field"><span class="field-name pk">review_id (PK)</span><span class="field-type">UUID</span></div>
+        <div class="entity-field"><span class="field-name fk">employee_id (FK)</span><span class="field-type">UUID</span></div>
+        <div class="entity-field"><span class="field-name">review_period</span><span class="field-type">VARCHAR</span></div>
+        <div class="entity-field"><span class="field-name">performance_rating</span><span class="field-type">ENUM</span></div>
+        <div class="entity-field"><span class="field-name">potential_rating</span><span class="field-type">ENUM</span></div>
+        <div class="entity-field"><span class="field-name">nine_box_position</span><span class="field-type">VARCHAR</span></div>
+        <div class="entity-field"><span class="field-name">manager_comments</span><span class="field-type">TEXT</span></div>
+        <div class="entity-field"><span class="field-name">ai_calibration_flag</span><span class="field-type">BOOLEAN</span></div>
+        <div class="entity-field"><span class="field-name">goals_completion_pct</span><span class="field-type">FLOAT</span></div>
+        <div class="entity-field"><span class="field-name">succession_eligible</span><span class="field-type">BOOLEAN</span></div>
+      </div>
+
+      <div class="entity">
+        <div class="entity-header" style="background:rgba(251,191,36,0.06);color:var(--amber);">REQUISITION <span class="badge ba">Recruitment</span></div>
+        <div class="entity-field"><span class="field-name pk">requisition_id (PK)</span><span class="field-type">UUID</span></div>
+        <div class="entity-field"><span class="field-name">title, grade, location</span><span class="field-type">VARCHAR</span></div>
+        <div class="entity-field"><span class="field-name fk">business_unit_id (FK)</span><span class="field-type">UUID</span></div>
+        <div class="entity-field"><span class="field-name fk">hiring_manager_id (FK)</span><span class="field-type">UUID</span></div>
+        <div class="entity-field"><span class="field-name">status</span><span class="field-type">ENUM</span></div>
+        <div class="entity-field"><span class="field-name">opened_date, closed_date</span><span class="field-type">DATE</span></div>
+        <div class="entity-field"><span class="field-name">time_to_fill_days</span><span class="field-type">INT</span></div>
+        <div class="entity-field"><span class="field-name">cost_to_fill</span><span class="field-type">DECIMAL</span></div>
+        <div class="entity-field"><span class="field-name">ai_demand_forecast</span><span class="field-type">JSON</span></div>
+        <div class="entity-field"><span class="field-name">approved_budget</span><span class="field-type">DECIMAL</span></div>
+      </div>
+
+      <div class="entity">
+        <div class="entity-header" style="background:rgba(34,197,94,0.05);color:var(--green);">LEARNING_RECORD <span class="badge bgn">Learning</span></div>
+        <div class="entity-field"><span class="field-name pk">record_id (PK)</span><span class="field-type">UUID</span></div>
+        <div class="entity-field"><span class="field-name fk">employee_id (FK)</span><span class="field-type">UUID</span></div>
+        <div class="entity-field"><span class="field-name fk">course_id (FK)</span><span class="field-type">UUID</span></div>
+        <div class="entity-field"><span class="field-name">completion_status</span><span class="field-type">ENUM</span></div>
+        <div class="entity-field"><span class="field-name">completion_date</span><span class="field-type">DATE</span></div>
+        <div class="entity-field"><span class="field-name">score_percentage</span><span class="field-type">FLOAT</span></div>
+        <div class="entity-field"><span class="field-name">certification_issued</span><span class="field-type">BOOLEAN</span></div>
+        <div class="entity-field"><span class="field-name">expiry_date</span><span class="field-type">DATE</span></div>
+        <div class="entity-field"><span class="field-name">mandatory_flag</span><span class="field-type">BOOLEAN</span></div>
+        <div class="entity-field"><span class="field-name">hours_invested</span><span class="field-type">FLOAT</span></div>
+      </div>
+
+      <div class="entity">
+        <div class="entity-header" style="background:rgba(251,113,133,0.06);color:var(--rose);">WORKFORCE_EVENT <span class="badge br">Intelligence</span></div>
+        <div class="entity-field"><span class="field-name pk">event_id (PK)</span><span class="field-type">UUID</span></div>
+        <div class="entity-field"><span class="field-name fk">employee_id (FK)</span><span class="field-type">UUID</span></div>
+        <div class="entity-field"><span class="field-name">event_type</span><span class="field-type">ENUM</span></div>
+        <div class="entity-field"><span class="field-name">event_timestamp</span><span class="field-type">TIMESTAMP</span></div>
+        <div class="entity-field"><span class="field-name">event_payload</span><span class="field-type">JSON</span></div>
+        <div class="entity-field"><span class="field-name">triggered_by</span><span class="field-type">ENUM</span></div>
+        <div class="entity-field"><span class="field-name">ai_signal_weight</span><span class="field-type">FLOAT</span></div>
+        <div class="entity-field"><span class="field-name">processed_at</span><span class="field-type">TIMESTAMP</span></div>
+        <div class="entity-field"><span class="field-name">stream_topic</span><span class="field-type">VARCHAR</span></div>
+        <div class="entity-field"><span class="field-name">retention_period_days</span><span class="field-type">INT</span></div>
+      </div>
+    </div>
+
+    <h2>Key Relationships</h2>
+    <pre><span class="c">-- Core workforce graph</span>
+EMPLOYEE            <span class="k">→</span> BUSINESS_UNIT      <span class="c">(many-to-one)</span>
+EMPLOYEE            <span class="k">→</span> EMPLOYEE            <span class="c">(self-ref: manager_id)</span>
+CANDIDATE           <span class="k">→</span> REQUISITION         <span class="c">(many-to-one)</span>
+CANDIDATE           <span class="k">→</span> EMPLOYEE            <span class="c">(one-to-one: post-hire)</span>
+EMPLOYEE            <span class="k">→</span> PERFORMANCE_REVIEW  <span class="c">(one-to-many, by period)</span>
+EMPLOYEE            <span class="k">→</span> LEARNING_RECORD     <span class="c">(one-to-many)</span>
+EMPLOYEE            <span class="k">→</span> WORKFORCE_EVENT     <span class="c">(one-to-many, event stream)</span>
+REQUISITION         <span class="k">→</span> BUSINESS_UNIT       <span class="c">(many-to-one)</span>
+WORKFORCE_EVENT     <span class="k">→</span> AI_SIGNAL_QUEUE     <span class="c">(async processing)</span>
+
+<span class="c">-- AI layer feeds</span>
+WORKFORCE_EVENT     <span class="k">→</span> ATTRITION_RISK_MODEL    <span class="c">(signal weighting)</span>
+CANDIDATE           <span class="k">→</span> MATCH_SCORING_MODEL     <span class="c">(vector similarity)</span>
+PERFORMANCE_REVIEW  <span class="k">→</span> NINE_BOX_AI_CALIBRATION <span class="c">(rating consistency)</span>
+LEARNING_RECORD     <span class="k">→</span> SKILL_GAP_MODEL         <span class="c">(proficiency inference)</span></pre>
+
+    <h2>Data Governance Principles</h2>
+    <div class="grid-3" style="margin-top:12px;">
+      <div class="card-sm stripe-gold"><strong>Single Source of Truth</strong><p style="font-size:12px;margin-top:6px;margin-bottom:0;">One canonical employee record, referenced by all modules via UUID. No duplication. No synchronisation lag. All modules read and write to the same identity.</p></div>
+      <div class="card-sm stripe-rose"><strong>POPIA & GDPR Compliance</strong><p style="font-size:12px;margin-top:6px;margin-bottom:0;">Consent recorded per data category. Right to erasure operationalised. Data retention periods enforced at the field level. Processing logs audit-ready.</p></div>
+      <div class="card-sm stripe-indigo"><strong>Event Immutability</strong><p style="font-size:12px;margin-top:6px;margin-bottom:0;">Workforce events are append-only. Nothing is deleted from the event stream — only archived per retention policy. Complete workforce history preserved for AI training.</p></div>
+    </div>
+  </section>
+
+  <!-- ═══ PART 9: AI CAPABILITY MAP ═══ -->
+  <section class="section" id="p9">
+    <div class="part-label">Part 09 · AI Capability Map</div>
+    <h1>Sphere AI — <span class="gold">Intelligence Architecture</span></h1>
+    <p class="lead">Sphere AI is not a chatbot bolted onto an HR system. It is a first-class intelligence layer that runs through every module — predicting, generating, recommending, and surfacing signals that would otherwise remain invisible in the data.</p>
+    <hr>
+
+    <h2>Six AI Capability Domains</h2>
+    <div class="grid-3" style="margin:16px 0;">
+      <div class="ai-cap">
+        <div class="ai-cap-header">
+          <div class="ai-cap-icon" style="background:var(--indigo-dim);">🔮</div>
+          <div><div class="ai-cap-title">Predictive Intelligence</div><div class="ai-cap-sub">ML · Forecasting · Risk scoring</div></div>
+        </div>
+        <ul>
+          <li>Attrition risk scoring per employee (0–100)</li>
+          <li>Offer acceptance probability before offer extended</li>
+          <li>Hiring demand forecasting by BU and role type</li>
+          <li>Performance trajectory modelling (6-month outlook)</li>
+          <li>Flight risk early warning system</li>
+          <li>Succession readiness scoring</li>
+          <li>Learning completion prediction</li>
+        </ul>
+      </div>
+      <div class="ai-cap">
+        <div class="ai-cap-header">
+          <div class="ai-cap-icon" style="background:var(--teal-dim);">⚡</div>
+          <div><div class="ai-cap-title">Generative Capabilities</div><div class="ai-cap-sub">LLM · Content creation · Drafting</div></div>
+        </div>
+        <ul>
+          <li>Job description writing and bias optimisation</li>
+          <li>Candidate outreach message personalisation</li>
+          <li>Interview question generation by role and competency</li>
+          <li>Executive workforce summary generation (daily)</li>
+          <li>HR policy drafting and updating</li>
+          <li>Performance review comment quality review</li>
+          <li>Offer letter and contract drafts</li>
+        </ul>
+      </div>
+      <div class="ai-cap">
+        <div class="ai-cap-header">
+          <div class="ai-cap-icon" style="background:var(--gold-dim);">🎯</div>
+          <div><div class="ai-cap-title">Matching & Scoring</div><div class="ai-cap-sub">Vector search · Embeddings · NLP</div></div>
+        </div>
+        <ul>
+          <li>Candidate-to-role matching via resume embeddings</li>
+          <li>Internal mobility candidate identification</li>
+          <li>Skills adjacency mapping for reskilling pathways</li>
+          <li>Learning content recommendation per employee</li>
+          <li>Salary benchmarking and equity flagging</li>
+          <li>Team composition analysis for new roles</li>
+          <li>Mentor-mentee matching</li>
+        </ul>
+      </div>
+      <div class="ai-cap">
+        <div class="ai-cap-header">
+          <div class="ai-cap-icon" style="background:var(--rose-dim);">🛡️</div>
+          <div><div class="ai-cap-title">Risk & Compliance</div><div class="ai-cap-sub">Monitoring · Detection · Alerting</div></div>
+        </div>
+        <ul>
+          <li>Bias detection in job descriptions and screening</li>
+          <li>Pay equity monitoring and anomaly flagging</li>
+          <li>Compliance deadline tracking and escalation</li>
+          <li>Succession gap risk scoring by business criticality</li>
+          <li>Manager calibration bias detection in reviews</li>
+          <li>Payroll anomaly detection before payroll runs</li>
+          <li>Diversity trend monitoring vs targets</li>
+        </ul>
+      </div>
+      <div class="ai-cap">
+        <div class="ai-cap-header">
+          <div class="ai-cap-icon" style="background:rgba(251,191,36,0.1);">💬</div>
+          <div><div class="ai-cap-title">Conversational Intelligence</div><div class="ai-cap-sub">NLQ · Copilot · Q&A</div></div>
+        </div>
+        <ul>
+          <li>Natural language workforce queries ("How many vacancies in CIB?")</li>
+          <li>HRBP decision support through conversation</li>
+          <li>Manager coaching nudges and talking points</li>
+          <li>Employee self-service HR policy Q&A</li>
+          <li>Executive briefing conversation mode</li>
+          <li>Exit interview analysis and theme extraction</li>
+          <li>Engagement survey open-text sentiment analysis</li>
+        </ul>
+      </div>
+      <div class="ai-cap">
+        <div class="ai-cap-header">
+          <div class="ai-cap-icon" style="background:rgba(34,197,94,0.08);">🔄</div>
+          <div><div class="ai-cap-title">Automation Triggers</div><div class="ai-cap-sub">Workflows · Rules · Scheduling</div></div>
+        </div>
+        <ul>
+          <li>Onboarding workflow auto-initiation on hire confirmation</li>
+          <li>Interview scheduling with calendar integration</li>
+          <li>Compliance certification expiry reminders</li>
+          <li>Probation review alerts to managers</li>
+          <li>Attrition risk escalation to HRBP</li>
+          <li>Contract renewal reminders with 60-day lead</li>
+          <li>Learning path assignment based on role change</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>AI Model Architecture</h2>
+    <table>
+      <thead><tr><th>Model</th><th>Type</th><th>Training Data</th><th>Output</th><th>Confidence Threshold</th></tr></thead>
+      <tbody>
+        <tr><td class="td-name">Attrition Predictor</td><td>Gradient Boosting</td><td>Historical exits + engagement + performance events</td><td>Risk score 0–100 per employee</td><td class="td-teal">≥75% before alert</td></tr>
+        <tr><td class="td-name">Candidate Matcher</td><td>Vector Similarity</td><td>Resume text + JD + historical hire quality data</td><td>Match score 0–100</td><td class="td-teal">≥60% to surface</td></tr>
+        <tr><td class="td-name">Demand Forecaster</td><td>Time Series (LSTM)</td><td>Historical hiring volumes + business growth signals</td><td>Hiring demand by BU / quarter</td><td class="td-gold">±15% margin</td></tr>
+        <tr><td class="td-name">Offer Predictor</td><td>Logistic Regression</td><td>Offer history + salary data + candidate signals</td><td>Accept probability 0–100%</td><td class="td-teal">≥70% threshold</td></tr>
+        <tr><td class="td-name">Sphere AI Copilot</td><td>LLM (Claude / GPT-4)</td><td>Platform context + workforce data retrieval</td><td>Natural language responses + actions</td><td class="td-gold">Human review for actions</td></tr>
+        <tr><td class="td-name">Calibration Auditor</td><td>Statistical Bias Detector</td><td>Performance ratings + demographic data</td><td>Bias flags per manager / cohort</td><td class="td-rose">Flags at >2σ deviation</td></tr>
+      </tbody>
+    </table>
+
+    <h2>AI Ethics Framework</h2>
+    <p>Every AI model in TalentSphere OS operates under a formal AI Ethics Framework aligned to the SA AI Policy Framework and global best practice. Key commitments: <strong>transparency</strong> (every AI score is explainable, not a black box), <strong>human override</strong> (all AI recommendations require human confirmation before action), <strong>bias monitoring</strong> (models audited quarterly for demographic bias), and <strong>consent</strong> (employees notified that AI models assess their data and can request explanation).</p>
+  </section>
+
+  <!-- ═══ PART 10: BUSINESS VALUE ═══ -->
+  <section class="section" id="p10">
+    <div class="part-label">Part 10 · Business Value</div>
+    <h1>Return on <span class="gold">Workforce Intelligence</span></h1>
+    <p class="lead">Every module in TalentSphere OS has a measurable business outcome. This is not a feature comparison table — it is a value realisation framework that answers the CFO's question before it is asked.</p>
+    <hr>
+
+    <h2>Full ROI Framework</h2>
+    <table>
+      <thead><tr><th>Outcome Area</th><th>Baseline</th><th>With TalentSphere OS</th><th>Improvement</th><th>Estimated Annual Value</th></tr></thead>
+      <tbody class="roi-row-positive">
+        <tr><td class="td-name">Time-to-Hire</td><td>32 days (benchmark)</td><td>19 days (achieved)</td><td class="td-teal">−41%</td><td class="td-teal">R2.8M (productivity recapture)</td></tr>
+        <tr><td class="td-name">Attrition Rate</td><td>13.2% (industry avg)</td><td>8.4% (achieved)</td><td class="td-teal">−4.8 pp</td><td class="td-teal">R8.4M (replacement cost avoided)</td></tr>
+        <tr><td class="td-name">Cost per Hire</td><td>R12,000 avg</td><td>R8,400 avg</td><td class="td-teal">−30%</td><td class="td-teal">R1.4M (direct cost reduction)</td></tr>
+        <tr><td class="td-name">HR Admin Effort</td><td>62% manual</td><td>18% manual</td><td class="td-teal">−73%</td><td class="td-teal">3.4 FTE equivalent released</td></tr>
+        <tr><td class="td-name">Offer Acceptance Rate</td><td>78% (industry avg)</td><td>88% (achieved)</td><td class="td-teal">+10 pp</td><td class="td-teal">62 additional hires annually</td></tr>
+        <tr><td class="td-name">Learning Completion</td><td>62%</td><td>88%</td><td class="td-teal">+26 pp</td><td class="td-teal">Compliance risk mitigated (material)</td></tr>
+        <tr><td class="td-name">Succession Coverage</td><td>41%</td><td>68%</td><td class="td-gold">+27 pp</td><td class="td-gold">Business continuity protection</td></tr>
+        <tr><td class="td-name">Reporting Cycle</td><td>Monthly (2-week lag)</td><td>Daily (real-time)</td><td class="td-teal">Near real-time</td><td class="td-teal">Strategic agility · Immeasurable</td></tr>
+        <tr><td class="td-name">Recruiter Productivity</td><td>Baseline</td><td>+34% placements per recruiter</td><td class="td-teal">+34%</td><td class="td-teal">1.4 FTE-equivalent capacity added</td></tr>
+      </tbody>
+    </table>
+
+    <div class="metric-row">
+      <div class="metric-box"><div class="metric-val" style="color:var(--teal);">R12M+</div><div class="metric-lbl">Total Annual Value</div><div class="metric-delta up">Per enterprise deployment</div></div>
+      <div class="metric-box"><div class="metric-val" style="color:var(--gold);">8–14</div><div class="metric-lbl">Months to ROI</div><div class="metric-delta nt">Typical payback period</div></div>
+      <div class="metric-box"><div class="metric-val" style="color:var(--indigo);">340%</div><div class="metric-lbl">3-Year ROI</div><div class="metric-delta up">Based on case study data</div></div>
+      <div class="metric-box"><div class="metric-val" style="color:var(--green);">73%</div><div class="metric-lbl">HR Time Freed</div><div class="metric-delta up">For strategic work</div></div>
+    </div>
+
+    <h2>Strategic Value Beyond Cost</h2>
+    <div class="grid-2">
+      <div class="card-sm stripe-indigo"><strong>Competitive Talent Advantage</strong><p style="font-size:12px;margin-top:6px;margin-bottom:0;">Organisations that hire faster, with higher quality, and retain better consistently outcompete on talent density. TalentSphere OS turns recruitment into a strategic differentiator, not an operational bottleneck.</p></div>
+      <div class="card-sm stripe-gold"><strong>Board-Level Credibility for HR</strong><p style="font-size:12px;margin-top:6px;margin-bottom:0;">The CHRO who presents with real-time data, predictive models, and quantified outcomes is a different strategic voice at the table. TalentSphere OS transforms the People function's boardroom presence.</p></div>
+      <div class="card-sm stripe-teal"><strong>Risk Management</strong><p style="font-size:12px;margin-top:6px;margin-bottom:0;">Succession gaps, compliance failures, and flight risk among critical talent represent material business risk. Predictive identification and proactive intervention converts reactive risk management into proactive governance.</p></div>
+      <div class="card-sm stripe-rose"><strong>Employee Experience as Retention Tool</strong><p style="font-size:12px;margin-top:6px;margin-bottom:0;">Premium platforms signal that the organisation invests in its people. Onboarding, learning, performance, and recognition experiences all influence engagement — and engagement is the leading indicator of retention.</p></div>
+    </div>
+  </section>
+
+  <!-- ═══ PART 11: PITCH DECK ═══ -->
+  <section class="section" id="p11">
+    <div class="part-label">Part 11 · Executive Pitch Deck Outline</div>
+    <h1>Board Presentation <span class="gold">Blueprint</span></h1>
+    <p class="lead">A 12-slide executive presentation structure. Each slide has a defined purpose, a defined audience, and a defined action it is designed to trigger. Designed for CHRO-led presentations to ExCo or Board.</p>
+    <hr>
+
+    <div class="slide">
+      <div class="slide-num">SLIDE 01</div>
+      <div class="slide-content">
+        <div class="slide-title">Title & Attribution</div>
+        <div class="slide-sub">TalentSphere OS — The Enterprise Talent & Workforce Intelligence Platform. Presented by: [CHRO Name]. Concept Origination: Kelebohile Mokoena, Talent Acquisition & HR Operations. Visual: Platform splash screen with rotating AI orb.</div>
+        <div class="slide-tag"><span class="badge bt">Context-setter</span><span class="badge bg">30 seconds</span></div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-num">SLIDE 02</div>
+      <div class="slide-content">
+        <div class="slide-title">The Cost of Not Knowing</div>
+        <div class="slide-sub">Three data points that frame the problem: (1) Our current time-to-hire vs benchmark — cost in lost productivity. (2) Our attrition rate vs industry — cost in replacement. (3) Hours HR spends on administration vs strategic work. No product shown yet — only the problem, in financial language that CFO and CEO will feel.</div>
+        <div class="slide-tag"><span class="badge br">Problem slide</span><span class="badge ba">CFO language</span></div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-num">SLIDE 03</div>
+      <div class="slide-content">
+        <div class="slide-title">The Workforce Operating System Concept</div>
+        <div class="slide-sub">Single diagram: the 12 modules of TalentSphere OS arranged around a central intelligence layer (Sphere AI). Label each module. Show that they share a unified data model. Tagline: "Move beyond ATS. Build a Workforce Operating System." Key message: this is not a new tool — it is a new capability.</div>
+        <div class="slide-tag"><span class="badge bi">Vision slide</span><span class="badge bg">High visual impact</span></div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-num">SLIDES 04–06</div>
+      <div class="slide-content">
+        <div class="slide-title">Live Platform Walkthrough (3 slides)</div>
+        <div class="slide-sub">Slide 04: Executive Command Center — open the prototype, show the heatmap, point to the risk indicators. Slide 05: Recruitment Intelligence — show the pipeline Kanban, click a candidate, run the AI match. Slide 06: Sphere AI — open the copilot, type "Which business units are at highest attrition risk?" Live response. This is the moment the room changes.</div>
+        <div class="slide-tag"><span class="badge bt">Demo slides</span><span class="badge ba">Highest impact</span><span class="badge bg">Interactive prototype</span></div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-num">SLIDE 07</div>
+      <div class="slide-content">
+        <div class="slide-title">Sphere AI — The Intelligence Advantage</div>
+        <div class="slide-sub">Six AI capability domains laid out visually: Predictive, Generative, Matching, Risk Detection, Conversational, Automation. For each: one example question an executive would actually ask, and what the AI would surface. Frame it as: "The intelligence your workforce data has always contained, finally accessible in real time."</div>
+        <div class="slide-tag"><span class="badge bi">AI capability</span><span class="badge bg">CTIO attention</span></div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-num">SLIDE 08</div>
+      <div class="slide-content">
+        <div class="slide-title">Architecture & Security</div>
+        <div class="slide-sub">For the CIO/CTIO: API-first microservices. Deployment options (SaaS / Private Cloud / Hybrid). POPIA and GDPR compliance by design. Integration compatibility with SAP, Oracle, Microsoft 365, and existing payroll. No data lock-in. Pre-built connectors. This slide answers objections before they are raised.</div>
+        <div class="slide-tag"><span class="badge bi">Technical credibility</span><span class="badge bt">CIO/CTIO</span></div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-num">SLIDE 09</div>
+      <div class="slide-content">
+        <div class="slide-title">Business Value & ROI</div>
+        <div class="slide-sub">The R12M+ annual value framework. Present as a simple table: Metric | Before | After | Value. Bottom line: 8–14 month payback. 340% 3-year ROI. Frame in CFO language: this is not an HR cost — it is a capital allocation decision with a measurable return. Include a conservative scenario and an optimistic scenario.</div>
+        <div class="slide-tag"><span class="badge bgn">CFO language</span><span class="badge bg">Decision trigger</span></div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-num">SLIDES 10–11</div>
+      <div class="slide-content">
+        <div class="slide-title">Roadmap & Implementation Model</div>
+        <div class="slide-sub">Slide 10: 5-phase roadmap with timelines. Phase 1 quick wins (90 days) highlighted — Command Center and Recruitment live. Show what the organisation will have in 4 months that it doesn't have today. Slide 11: Change management model. Who does what. Governance structure. Success metrics for each phase. Risk mitigation approach.</div>
+        <div class="slide-tag"><span class="badge bg">Execution confidence</span><span class="badge bt">Governance</span></div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-num">SLIDE 12</div>
+      <div class="slide-content">
+        <div class="slide-title">The Ask</div>
+        <div class="slide-sub">Three asks, in order of commitment: (1) Approval to proceed to Phase 1 scoping — low commitment, high signal. (2) Budget approval for Phase 1 build — R[X] investment against R2.8M first-year value. (3) Executive sponsor designation — who owns this at ExCo level. Close with: "We built this prototype in-house. Imagine what we can do with proper investment."</div>
+        <div class="slide-tag"><span class="badge bg">Call to action</span><span class="badge br">Decision required</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PART 12: GITHUB ═══ -->
+  <section class="section" id="p12">
+    <div class="part-label">Part 12 · GitHub Repository Structure</div>
+    <h1>Repository <span class="gold">Architecture</span></h1>
+    <p class="lead">The TalentSphere OS repository is structured to be immediately navigable by technical reviewers, portfolio evaluators, and potential collaborators. Every folder has a clear purpose. Every file has a clear name.</p>
+    <hr>
+
+    <pre><span class="k">talentsphere-os/</span>
+│
+├── <span class="folder">prototype/</span>                          <span class="comment"># Browser-ready interactive prototype</span>
+│   ├── <span class="file">talentsphere_os.html</span>            <span class="comment"># Main platform prototype (single file)</span>
+│   ├── <span class="file">talentsphere_portfolio_docs.html</span><span class="comment"># Full portfolio documentation</span>
+│   └── <span class="file">assets/</span>                         <span class="comment"># Any referenced images / icons</span>
+│
+├── <span class="folder">docs/</span>                               <span class="comment"># Product documentation</span>
+│   ├── <span class="file">01_product_vision.md</span>
+│   ├── <span class="file">02_executive_narrative.md</span>
+│   ├── <span class="file">03_user_personas.md</span>
+│   ├── <span class="file">04_system_architecture.md</span>
+│   ├── <span class="file">05_navigation_structure.md</span>
+│   ├── <span class="file">06_page_structure.md</span>
+│   ├── <span class="file">07_dashboard_concepts.md</span>
+│   ├── <span class="file">08_data_model.md</span>
+│   ├── <span class="file">09_ai_capability_map.md</span>
+│   ├── <span class="file">10_business_value.md</span>
+│   ├── <span class="file">11_pitch_deck_outline.md</span>
+│   ├── <span class="file">14_case_study.md</span>
+│   ├── <span class="file">15_roadmap.md</span>
+│   ├── <span class="file">16_enterprise_integrations.md</span>
+│   └── <span class="file">17_portfolio_presentation.md</span>
+│
+├── <span class="folder">design/</span>                             <span class="comment"># Design system and visual assets</span>
+│   ├── <span class="file">design_tokens.json</span>              <span class="comment"># Colours, typography, spacing</span>
+│   ├── <span class="file">component_library.md</span>
+│   ├── <span class="file">dashboard_wireframes/</span>
+│   └── <span class="file">figma_export/</span>
+│
+├── <span class="folder">data-model/</span>                         <span class="comment"># Database schemas and ERD</span>
+│   ├── <span class="file">schema.sql</span>                      <span class="comment"># Full PostgreSQL schema</span>
+│   ├── <span class="file">erd_diagram.png</span>
+│   └── <span class="file">seed_data.json</span>                  <span class="comment"># Sample/mock data for demo</span>
+│
+├── <span class="folder">ai/</span>                                 <span class="comment"># AI model documentation</span>
+│   ├── <span class="file">sphere_ai_architecture.md</span>
+│   ├── <span class="file">model_cards/</span>                    <span class="comment"># Model card per AI capability</span>
+│   │   ├── <span class="file">attrition_predictor.md</span>
+│   │   ├── <span class="file">candidate_matcher.md</span>
+│   │   ├── <span class="file">demand_forecaster.md</span>
+│   │   └── <span class="file">offer_predictor.md</span>
+│   └── <span class="file">ethics_framework.md</span>
+│
+├── <span class="folder">pitch/</span>                              <span class="comment"># Executive presentation</span>
+│   ├── <span class="file">talentsphere_board_deck.pptx</span>
+│   ├── <span class="file">pitch_script.md</span>
+│   └── <span class="file">executive_one_pager.pdf</span>
+│
+├── <span class="folder">roadmap/</span>                            <span class="comment"># Build and delivery planning</span>
+│   ├── <span class="file">phase_1_foundation.md</span>
+│   ├── <span class="file">phase_2_lifecycle.md</span>
+│   ├── <span class="file">phase_3_intelligence.md</span>
+│   ├── <span class="file">phase_4_ecosystem.md</span>
+│   └── <span class="file">phase_5_scale.md</span>
+│
+├── <span class="folder">integrations/</span>                       <span class="comment"># Integration specifications</span>
+│   ├── <span class="file">sap_connector_spec.md</span>
+│   ├── <span class="file">microsoft365_spec.md</span>
+│   ├── <span class="file">payroll_api_spec.md</span>
+│   └── <span class="file">linkedin_api_spec.md</span>
+│
+├── <span class="file">CHANGELOG.md</span>
+├── <span class="file">CONTRIBUTING.md</span>
+├── <span class="file">LICENSE.md</span>                          <span class="comment"># Portfolio concept · CC BY-NC 4.0</span>
+└── <span class="file">README.md</span></pre>
+
+    <h2>Repository Conventions</h2>
+    <div class="grid-2">
+      <div class="card-sm stripe-teal"><strong>Branch Strategy</strong><p style="font-size:12px;margin-top:6px;margin-bottom:0;"><code>main</code> — stable released version. <code>develop</code> — active development. <code>feature/*</code> — per feature. <code>prototype/*</code> — prototype iterations. Tags for major versions: v1.0, v2.0.</p></div>
+      <div class="card-sm stripe-gold"><strong>Commit Convention</strong><p style="font-size:12px;margin-top:6px;margin-bottom:0;">Conventional commits: <code>feat:</code>, <code>docs:</code>, <code>design:</code>, <code>ai:</code>, <code>fix:</code>. All commits include scope: <code>feat(recruitment): add AI pipeline forecast</code>.</p></div>
+    </div>
+  </section>
+
+  <!-- ═══ PART 13: README ═══ -->
+  <section class="section" id="p13">
+    <div class="part-label">Part 13 · README.md</div>
+    <h1>Project <span class="gold">README</span></h1>
+    <hr>
+    <pre><span class="k"># TalentSphere OS</span>
+<span class="s">### The Enterprise Talent & Workforce Intelligence Platform</span>
+
+<span class="v">![Type](https://img.shields.io/badge/Type-Portfolio%20Concept-c9a84c)</span>
+<span class="v">![Status](https://img.shields.io/badge/Status-Active-22c55e)</span>
+<span class="v">![Author](https://img.shields.io/badge/Concept%20Lead-Kelebohile%20Mokoena-2dd4bf)</span>
+<span class="v">![License](https://img.shields.io/badge/License-CC%20BY--NC%204.0-818cf8)</span>
+
+---
+
+<span class="k">## What Is TalentSphere OS?</span>
+
+TalentSphere OS is a portfolio-grade enterprise concept demonstrating
+what a unified Workforce Operating System looks like when designed with
+AI-native intelligence, executive-grade UX, and a clear business value
+framework at its centre.
+
+This is not a feature list. It is a working prototype, a system
+architecture, a data model, a business case, and a strategic vision —
+presented as a complete portfolio artefact for enterprise HR, Talent
+Acquisition, and HR Technology audiences.
+
+<span class="k">## Quick Start</span>
+
+<span class="s">```bash</span>
+<span class="t"># No dependencies. No build step. Open in any modern browser.</span>
+git clone https://github.com/[your-handle]/talentsphere-os.git
+cd talentsphere-os/prototype
+open talentsphere_os.html
+<span class="s">```</span>
+
+<span class="k">## What's Included</span>
+
+<span class="s">| File | Description |</span>
+<span class="s">|------|-------------|</span>
+<span class="s">| prototype/talentsphere_os.html | Full interactive platform prototype |</span>
+<span class="s">| prototype/talentsphere_portfolio_docs.html | All 17 portfolio parts |</span>
+<span class="s">| docs/ | Written documentation for each part |</span>
+<span class="s">| design/ | Design tokens and component specs |</span>
+<span class="s">| data-model/ | Database schema and ERD |</span>
+<span class="s">| ai/ | AI model cards and ethics framework |</span>
+<span class="s">| pitch/ | Executive presentation materials |</span>
+<span class="s">| roadmap/ | 5-phase build plan |</span>
+
+<span class="k">## Platform Modules</span>
+
+1. <span class="v">Executive Command Center</span>     — KPIs, heatmaps, risk indicators, scorecards
+2. <span class="v">Recruitment Intelligence</span>       — Pipeline, CRM, analytics, AI forecasting
+3. <span class="v">Employee Lifecycle</span>            — Onboarding, mobility, engagement, offboarding
+4. <span class="v">Performance & Talent</span>          — 9-box grid, succession, calibration
+5. <span class="v">Learning & Growth</span>             — Journeys, skills intelligence, certifications
+6. <span class="v">Workforce Intelligence</span>        — Predictive analytics, planning, people data
+7. <span class="v">HR Operations</span>                 — Approvals, compliance, workflow automation
+8. <span class="v">Payroll Experience Layer</span>       — Employee self-service, visibility, alerts
+9. <span class="v">Employee Portal</span>               — Personal dashboard, goals, recognition
+10. <span class="v">Manager Hub</span>                   — Team insights, approvals, AI nudges
+11. <span class="v">Collaboration Layer</span>           — Communities, announcements, knowledge
+12. <span class="v">Sphere AI Copilot</span>             — Conversational intelligence across all modules
+
+<span class="k">## Design System</span>
+
+<span class="t">Fonts:  Syne (display) · DM Mono (data) · Crimson Pro (narrative)</span>
+<span class="t">Dark:   #080b12 (void) · #0d1117 (surface) · #18202e (card)</span>
+<span class="t">Gold:   #c9a84c — primary KPIs and key actions</span>
+<span class="t">Teal:   #2dd4bf — positive trends and intelligence</span>
+<span class="t">Rose:   #fb7185 — risk and alerts</span>
+<span class="t">Indigo: #818cf8 — AI and analytics elements</span>
+
+<span class="k">## Target Audience</span>
+
+This concept is designed to demonstrate capability to:
+- CHRO · Chief People Officer · Head of Talent
+- Head of Talent Acquisition (all levels and specialisations)
+- CIO · CTIO · Chief Data Officer
+- CFO · CEO · Executive Leadership
+- HR Technology · People Analytics · Workforce Strategy professionals
+
+<span class="k">## Portfolio Attribution</span>
+
+<span class="s">Concept Lead:  Kelebohile Mokoena</span>
+<span class="s">Function:      Talent Acquisition & HR Operations</span>
+<span class="s">Speciality:    Workforce Transformation · Talent Intelligence · HR Systems Innovation</span>
+<span class="s">Tagline:       TalentOS → TalentSphere OS — building the future of workforce intelligence</span>
+
+<span class="c">---</span>
+<span class="c">Public portfolio concept only.</span>
+<span class="c">Original work. Not affiliated with or based on any existing HR product.</span>
+<span class="c">No real company data, confidential workflows, or proprietary datasets used.</span>
+<span class="c">© Kelebohile Mokoena · CC BY-NC 4.0</span></pre>
+  </section>
+
+  <!-- ═══ PART 14: CASE STUDY ═══ -->
+  <section class="section" id="p14">
+    <div class="part-label">Part 14 · Case Study</div>
+    <h1>GlobalCap Financial Services — <span class="gold">A Transformation Story</span></h1>
+    <p class="lead">The following is a conceptual case study illustrating platform impact within a hypothetical enterprise financial services organisation. All names, figures, and scenarios are original constructions for portfolio purposes.</p>
+    <hr>
+
+    <h2>Organisation Context</h2>
+    <p><strong>GlobalCap Financial Services</strong> is a diversified financial services group headquartered in Johannesburg, with operations across 8 African markets. Workforce of 11,200 employees spanning Corporate & Investment Banking, Retail Operations, Technology, Risk & Compliance, and Finance functions. The organisation had grown through acquisition over 5 years, resulting in fragmented HR technology across business units — some operating on legacy HRIS systems, others on spreadsheets, and the CIB division operating with no formal talent pipeline management at all.</p>
+
+    <h2>The Pre-TalentSphere OS State</h2>
+    <div class="grid-3" style="margin:16px 0 0;">
+      <div class="card-sm stripe-rose">
+        <div style="font-size:11px;font-family:var(--mono);color:var(--rose);letter-spacing:1.5px;margin-bottom:8px;">PROBLEM AREA 1</div>
+        <strong style="font-size:13px;">7 Disconnected Systems</strong>
+        <p style="font-size:12px;margin-top:6px;margin-bottom:0;">ATS, HRIS, LMS, payroll, performance tracking (Excel), engagement survey tool, and an executive reporting PowerPoint template produced manually by the HR team each month. No unified employee identity. Data reconciliation took 3 days per month.</p>
+      </div>
+      <div class="card-sm stripe-amber">
+        <div style="font-size:11px;font-family:var(--mono);color:var(--amber);letter-spacing:1.5px;margin-bottom:8px;">PROBLEM AREA 2</div>
+        <strong style="font-size:13px;">Reactive Talent Management</strong>
+        <p style="font-size:12px;margin-top:6px;margin-bottom:0;">The Technology BU had reached 19% annualised attrition. The CHRO learned about resignation spikes from exit interviews — after the exits had occurred. The board had no forward visibility on talent risk in the most critical division.</p>
+      </div>
+      <div class="card-sm stripe-indigo">
+        <div style="font-size:11px;font-family:var(--mono);color:var(--indigo);letter-spacing:1.5px;margin-bottom:8px;">PROBLEM AREA 3</div>
+        <strong style="font-size:13px;">Administrative HR Function</strong>
+        <p style="font-size:12px;margin-top:6px;margin-bottom:0;">HR business partners reported spending 68% of their working hours on administrative tasks: approvals, data entry, report compilation, interview scheduling, and document management. Strategic workforce initiatives were consistently deprioritised.</p>
+      </div>
+    </div>
+
+    <h2 style="margin-top:32px;">The TalentSphere OS Deployment</h2>
+    <div class="tl" style="margin-top:16px;">
+      <div class="tl-item">
+        <div class="tl-node done">1</div>
+        <div class="tl-body">
+          <div class="tl-title">Phase 1: Command Center & Recruitment (Months 1–4)</div>
+          <div class="tl-sub">Foundation deployed · Quick wins delivered</div>
+          <div class="tl-detail">Executive Command Center went live in Month 2, replacing the monthly PowerPoint report. The CHRO received her first daily AI-generated workforce briefing in Month 3. Recruitment module deployed for Technology BU first — the highest-risk division. Sphere AI trained on 18 months of historical hiring data. Within 60 days, average TTH in Technology had dropped from 31 days to 22 days.</div>
+        </div>
+        <div class="tl-when">Months 1–4</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-node done">2</div>
+        <div class="tl-body">
+          <div class="tl-title">Phase 2: Employee Lifecycle & Performance (Months 5–9)</div>
+          <div class="tl-sub">Employee experience transformation</div>
+          <div class="tl-detail">Onboarding module replaced email-based new joiner process. 90-day retention for Technology improved to 97% within 2 cohorts. Performance module launched with 9-box calibration. First AI-calibrated talent review revealed significant rating inflation in Operations — 23% of 'exceptional' ratings recalibrated downward, creating more credible development conversations. Manager Hub deployed to all people managers with AI nudges driving 40% increase in 1:1 frequency.</div>
+        </div>
+        <div class="tl-when">Months 5–9</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-node active">3</div>
+        <div class="tl-body">
+          <div class="tl-title">Phase 3: Workforce Intelligence & Predictive Models (Months 10–15)</div>
+          <div class="tl-sub">Intelligence layer activated · Predictions trusted by Finance</div>
+          <div class="tl-detail">Attrition prediction model went live with 89% accuracy at the 90-day horizon. First meaningful intervention: the model flagged 14 high-risk employees in Risk & Compliance in Month 11. The CHRO authorised a targeted retention programme. Of the 14 flagged, 11 remained with the organisation at the 12-month mark — a retention event worth R2.1M in avoided replacement cost. Finance validated the model output. The CDO presented workforce forecasting to the board for the first time alongside financial forecasts.</div>
+        </div>
+        <div class="tl-when">Months 10–15</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-node future">4</div>
+        <div class="tl-body">
+          <div class="tl-title">Phases 4 & 5: Ecosystem & Scale (Planned)</div>
+          <div class="tl-sub">Full integration · Multi-market deployment</div>
+          <div class="tl-detail">SAP integration planned for Month 16. Payroll visibility layer to follow. Multi-market deployment across 8 African operations from Month 20. Advanced succession planning module with board reporting capability in Phase 5.</div>
+        </div>
+        <div class="tl-when">Months 16–24</div>
+      </div>
+    </div>
+
+    <h2>Measured Outcomes — 12 Months Post Phase 1 Launch</h2>
+    <table>
+      <thead><tr><th>Metric</th><th>Before</th><th>After 12 Months</th><th>Change</th></tr></thead>
+      <tbody>
+        <tr><td class="td-name">Average Time-to-Hire (Technology)</td><td>31 days</td><td>17 days</td><td class="td-teal">−45%</td></tr>
+        <tr><td class="td-name">Technology BU Attrition</td><td>19% annualised</td><td>11% annualised</td><td class="td-teal">−8 pp</td></tr>
+        <tr><td class="td-name">Offer Acceptance Rate (all BUs)</td><td>74%</td><td>91%</td><td class="td-teal">+17 pp</td></tr>
+        <tr><td class="td-name">HR Admin Time (HRBPs)</td><td>68% of hours</td><td>24% of hours</td><td class="td-teal">−65%</td></tr>
+        <tr><td class="td-name">Executive Reporting Cycle</td><td>Monthly (14-day lag)</td><td>Daily (real-time)</td><td class="td-teal">Near real-time</td></tr>
+        <tr><td class="td-name">Succession Coverage (all grades)</td><td>38%</td><td>69%</td><td class="td-teal">+31 pp</td></tr>
+        <tr><td class="td-name">Compliance Certification Rate</td><td>61%</td><td>94%</td><td class="td-teal">+33 pp</td></tr>
+        <tr><td class="td-name">Recruiter Placements / Month</td><td>4.2 per recruiter</td><td>6.8 per recruiter</td><td class="td-teal">+62%</td></tr>
+        <tr><td class="td-name">CHRO Board Confidence Score</td><td>3.2/5 (ExCo survey)</td><td>4.7/5 (ExCo survey)</td><td class="td-gold">+47%</td></tr>
+        <tr><td class="td-name">Estimated Annual Value Delivered</td><td>—</td><td>R13.8M (conservative)</td><td class="td-teal">First-year ROI positive</td></tr>
+      </tbody>
+    </table>
+
+    <blockquote>
+      <p>Within six months, the CHRO walked into the board with a live dashboard instead of a slide deck. The board asked her if she could do the same for the financial function. That was the moment the People function became genuinely strategic.</p>
+      <cite>— Conceptual CEO quote · GlobalCap Financial Services scenario</cite>
+    </blockquote>
+
+    <h2>Lessons Learned</h2>
+    <ul>
+      <li><strong>Phase 1 adoption was highest when quick wins were visible within 90 days.</strong> Start with the Command Center and one business unit's recruitment — the impact is immediate and generates internal advocacy.</li>
+      <li><strong>Finance partnership is critical.</strong> The attrition prediction model gained traction only after the CDO presented alongside the CFO. HR data credibility is a joint Finance/People problem.</li>
+      <li><strong>Manager adoption drives employee experience outcomes.</strong> The Manager Hub's AI nudges drove a 40% increase in 1:1 frequency. Engagement scores followed within one quarter.</li>
+      <li><strong>AI requires trust-building.</strong> The first attrition prediction report was reviewed sceptically by the CHRO. After the interventions saved R2.1M in Month 11, scepticism converted to sponsorship.</li>
+    </ul>
+  </section>
+
+  <!-- ═══ PART 15: ROADMAP ═══ -->
+  <section class="section" id="p15">
+    <div class="part-label">Part 15 · Product Roadmap</div>
+    <h1>24-Month <span class="gold">Build Roadmap</span></h1>
+    <p class="lead">Five phases. Each delivers a distinct capability step-change. Each has defined success criteria before the next phase is approved. No phase is optional — each builds on the foundation of the one before it.</p>
+    <hr>
+
+    <div class="tl">
+      <div class="tl-item">
+        <div class="tl-node done" style="background:var(--teal-dim);border-color:var(--teal);color:var(--teal);">1</div>
+        <div class="tl-body">
+          <div class="tl-title" style="color:var(--teal);">Phase 1 — Foundation: Command Center & Recruitment Intelligence</div>
+          <div class="tl-sub">Core platform infrastructure · Immediate executive value</div>
+          <div class="tl-detail">
+            <strong>What gets built:</strong> Unified data model and core employee identity. Executive Command Center (KPIs, heatmaps, scorecards, live feed). Recruitment Intelligence (pipeline Kanban, candidate CRM, interview orchestration, source analytics). Sphere AI v1 (conversational Q&A, basic candidate matching). HR Ops approvals queue. Employee Portal MVP (leave, payslip view, goals).<br><br>
+            <strong>Success criteria:</strong> CHRO using Command Center daily. Time-to-hire reduction visible within 60 days. At least one business unit fully live on recruitment module. Sphere AI answering 80% of workforce queries without human escalation.
+          </div>
+        </div>
+        <div class="tl-when">Months 1–4</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-node done" style="background:var(--gold-dim);border-color:var(--gold);color:var(--gold);">2</div>
+        <div class="tl-body">
+          <div class="tl-title" style="color:var(--gold);">Phase 2 — Lifecycle: Employee Experience & Performance</div>
+          <div class="tl-sub">Full employee journey · Manager capability</div>
+          <div class="tl-detail">
+            <strong>What gets built:</strong> Onboarding workflow engine with auto-provisioning. Internal Mobility board. Engagement pulse surveys. Performance cycle management. 9-Box talent grid with AI calibration. Manager Hub full deployment (team insights, AI nudges, approval workflows). Learning module MVP (journey tracking, completion, certification alerts). Recognition and collaboration layer.<br><br>
+            <strong>Success criteria:</strong> 90-day retention improvement measurable. 9-box calibration used in at least one talent review cycle. Manager Hub active adoption >70%. Learning completion rate above 75%.
+          </div>
+        </div>
+        <div class="tl-when">Months 5–9</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-node active" style="background:var(--indigo-dim);border-color:var(--indigo);color:var(--indigo);">3</div>
+        <div class="tl-body">
+          <div class="tl-title" style="color:var(--indigo);">Phase 3 — Intelligence: Predictive Analytics & Workforce Planning</div>
+          <div class="tl-sub">Sphere AI v2 · Predictive models in production</div>
+          <div class="tl-detail">
+            <strong>What gets built:</strong> Attrition prediction model (89%+ accuracy target). Offer acceptance probability model. Demand forecasting by BU and role type. Workforce capacity planning module. Diversity analytics dashboard. Skills intelligence map with gap identification. Succession readiness scoring. Sphere AI v2 (generative reports, predictive queries, HRBP decision support). People analytics export to Power BI / Tableau.<br><br>
+            <strong>Success criteria:</strong> Attrition prediction adopted by at least 3 HRBPs. Finance sign-off on workforce forecast credibility. Board-level workforce planning discussion using platform data.
+          </div>
+        </div>
+        <div class="tl-when">Months 10–15</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-node future">4</div>
+        <div class="tl-body">
+          <div class="tl-title">Phase 4 — Ecosystem: Enterprise Integrations & Payroll Layer</div>
+          <div class="tl-sub">Full stack connectivity · Compliance engine</div>
+          <div class="tl-detail">
+            <strong>What gets built:</strong> SAP S/4HANA and Oracle HCM integration. Payroll visibility layer (employee self-service, manager cost view, executive BU comparison). Document intelligence (contract generation, AI extraction, e-signature). Compliance engine (certification tracking, regulatory deadline management). Audit trail and governance dashboard. API marketplace (developer portal for custom integrations). LinkedIn Talent Solutions integration.<br><br>
+            <strong>Success criteria:</strong> Zero manual payroll data reconciliation. Compliance score above 95%. All integrations live and bi-directionally syncing.
+          </div>
+        </div>
+        <div class="tl-when">Months 16–20</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-node future">5</div>
+        <div class="tl-body">
+          <div class="tl-title">Phase 5 — Scale: Multi-Market, Advanced AI & Enterprise Mobile</div>
+          <div class="tl-sub">Global readiness · Executive mobile app</div>
+          <div class="tl-detail">
+            <strong>What gets built:</strong> Multi-language support (English, French, Portuguese, Afrikaans, Swahili). Regional compliance profiles (POPIA, GDPR, CCPA, local labour law variants). Advanced hiring forecasting with macro-economic signal integration. AI Calibration Engine v2 (cross-cohort bias detection, longitudinal model). Executive iOS/Android app (Command Center + Sphere AI + approvals). Partner API marketplace (third-party HR tech ecosystem).<br><br>
+            <strong>Success criteria:</strong> Deployed across all markets. Mobile app in active use by 80% of executives. Multi-language active in at least 3 markets.
+          </div>
+        </div>
+        <div class="tl-when">Months 21–24</div>
+      </div>
+    </div>
+
+    <h2>Investment & Resource Model</h2>
+    <table>
+      <thead><tr><th>Phase</th><th>Duration</th><th>Core Team</th><th>Primary Investment</th><th>Expected Return</th></tr></thead>
+      <tbody>
+        <tr><td class="td-name">Phase 1: Foundation</td><td>4 months</td><td>3 engineers · 1 designer · 1 PM</td><td>Build + infrastructure</td><td class="td-teal">TTH reduction · Recruitment ROI</td></tr>
+        <tr><td class="td-name">Phase 2: Lifecycle</td><td>5 months</td><td>4 engineers · 1 designer · HRBP input</td><td>Feature expansion</td><td class="td-teal">Retention improvement · Admin reduction</td></tr>
+        <tr><td class="td-name">Phase 3: Intelligence</td><td>6 months</td><td>2 ML engineers · 3 engineers · CDO partnership</td><td>AI model training + infrastructure</td><td class="td-gold">Attrition savings · Board credibility</td></tr>
+        <tr><td class="td-name">Phase 4: Ecosystem</td><td>5 months</td><td>3 engineers · integration specialists</td><td>Integration development</td><td class="td-teal">Compliance · Payroll efficiency</td></tr>
+        <tr><td class="td-name">Phase 5: Scale</td><td>4 months</td><td>Full team · regional HR partners</td><td>Localisation + mobile</td><td class="td-teal">Global deployment · Mobile ROI</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ═══ PART 16: INTEGRATIONS ═══ -->
+  <section class="section" id="p16">
+    <div class="part-label">Part 16 · Future Enterprise Integrations</div>
+    <h1>Integration <span class="gold">Ecosystem</span></h1>
+    <p class="lead">TalentSphere OS is designed to sit at the centre of the enterprise HR technology ecosystem — not to replace every system, but to connect them under a unified intelligence and experience layer.</p>
+    <hr>
+
+    <h2>Tier 1: Core System Integrations (Pre-Built Connectors)</h2>
+    <table>
+      <thead><tr><th>System</th><th>Category</th><th>Integration Type</th><th>Data Flow</th><th>Phase</th></tr></thead>
+      <tbody>
+        <tr><td class="td-name">SAP S/4HANA</td><td>ERP / Core HR</td><td>REST API + SFTP</td><td>Employee master data, org structure, grade, cost centre</td><td><span class="badge bg">Phase 4</span></td></tr>
+        <tr><td class="td-name">Oracle HCM Cloud</td><td>Core HR</td><td>REST API</td><td>Headcount, compensation bands, position management</td><td><span class="badge bg">Phase 4</span></td></tr>
+        <tr><td class="td-name">Workday</td><td>HCM</td><td>REST API</td><td>Employee records, absence, payroll data</td><td><span class="badge bg">Phase 4</span></td></tr>
+        <tr><td class="td-name">VIP Payroll / ADP</td><td>Payroll</td><td>Secure API / SFTP</td><td>Payslip data, YTD, deductions (read-only)</td><td><span class="badge bg">Phase 4</span></td></tr>
+        <tr><td class="td-name">Microsoft 365</td><td>Collaboration</td><td>Microsoft Graph API</td><td>Calendar (interview scheduling), Teams (notifications), SharePoint (documents)</td><td><span class="badge bt">Phase 1</span></td></tr>
+        <tr><td class="td-name">LinkedIn Talent Solutions</td><td>Talent Sourcing</td><td>LinkedIn API</td><td>Job posting, candidate sourcing, InMail integration</td><td><span class="badge bg">Phase 4</span></td></tr>
+        <tr><td class="td-name">DocuSign</td><td>e-Signature</td><td>REST API</td><td>Offer letters, contracts, policy acknowledgements</td><td><span class="badge bt">Phase 2</span></td></tr>
+        <tr><td class="td-name">Calendly / Microsoft Bookings</td><td>Scheduling</td><td>REST API</td><td>Interview and meeting scheduling automation</td><td><span class="badge bt">Phase 1</span></td></tr>
+      </tbody>
+    </table>
+
+    <h2>Tier 2: Intelligence & Analytics Integrations</h2>
+    <div class="grid-3" style="margin:16px 0;">
+      <div class="feat"><div class="feat-icon">📊</div><div class="feat-name">Power BI</div><div class="feat-desc">Direct dataset connection via TalentSphere API. Custom report building on top of unified workforce data. Finance-familiar interface for CFO reporting.</div></div>
+      <div class="feat"><div class="feat-icon">📈</div><div class="feat-name">Tableau</div><div class="feat-desc">Live data connector. Pre-built TalentSphere dashboard templates. Workforce Intelligence export with refresh scheduling.</div></div>
+      <div class="feat"><div class="feat-icon">❄️</div><div class="feat-name">Snowflake</div><div class="feat-desc">Direct data warehouse federation. TalentSphere data as a Snowflake share. Enable enterprise analytics teams to build custom models on clean workforce data.</div></div>
+      <div class="feat"><div class="feat-icon">🧠</div><div class="feat-name">Azure AI / Vertex AI</div><div class="feat-desc">Optional enterprise AI layer substitution. Organisations with existing Azure OpenAI or Google Vertex contracts can route Sphere AI through their own AI infrastructure.</div></div>
+      <div class="feat"><div class="feat-icon">📋</div><div class="feat-name">Looker / Qlik</div><div class="feat-desc">BI-agnostic API layer ensures TalentSphere data is consumable by whichever analytics tool the enterprise already uses.</div></div>
+      <div class="feat"><div class="feat-icon">🔗</div><div class="feat-name">Zapier / Make (Integromat)</div><div class="feat-desc">No-code automation platform connectivity. HR administrators can build custom workflow triggers without engineering support.</div></div>
+    </div>
+
+    <h2>Tier 3: Compliance & Regulatory Integrations</h2>
+    <div class="grid-2">
+      <div class="card-sm stripe-rose"><strong>South Africa: POPIA Compliance</strong><p style="font-size:12px;margin-top:6px;margin-bottom:0;">Data subject consent recording. Right to access / erasure operationalisation. Processing activity register. POPIA section 22 breach notification workflow. Information Officer designation tracking.</p></div>
+      <div class="card-sm stripe-indigo"><strong>European Union: GDPR</strong><p style="font-size:12px;margin-top:6px;margin-bottom:0;">Lawful processing basis recording per data category. Data retention policy enforcement at field level. Cross-border transfer mechanism documentation. DPA register and Article 30 records.</p></div>
+      <div class="card-sm stripe-amber"><strong>Financial Services Regulatory (FSCA / FSB)</strong><p style="font-size:12px;margin-top:6px;margin-bottom:0;">Fit and proper requirement tracking for key individuals. Continuous professional development (CPD) certification management. FAIS Act compliance monitoring. Regulatory exam tracking.</p></div>
+      <div class="card-sm stripe-teal"><strong>Labour Law (BCEA / LRA)</strong><p style="font-size:12px;margin-top:6px;margin-bottom:0;">Leave entitlement calculation and enforcement. Employment contract type management. Disciplinary process workflow compliance. EEA reporting data model and equity plan tracking.</p></div>
+    </div>
+
+    <h2>Integration Architecture Principles</h2>
+    <ul>
+      <li><strong>API-first, never screen-scraping.</strong> All integrations use published APIs. No brittle UI-level integrations that break on system updates.</li>
+      <li><strong>Bi-directional where needed, read-only by default.</strong> TalentSphere never pushes to source systems unless explicitly configured. This protects data integrity in payroll and core HR environments.</li>
+      <li><strong>Event-driven sync, not batch.</strong> Changes in integrated systems trigger real-time events in TalentSphere. No nightly batch jobs. No data lag.</li>
+      <li><strong>Conflict resolution by source-of-truth designation.</strong> For each data field, the organisation designates the authoritative source. Conflicts from other systems are flagged, not silently overwritten.</li>
+    </ul>
+  </section>
+
+  <!-- ═══ PART 17: PRESENTATION APPROACH ═══ -->
+  <section class="section" id="p17">
+    <div class="part-label">Part 17 · Portfolio Presentation Approach</div>
+    <h1>How to Present <span class="gold">TalentSphere OS</span></h1>
+    <p class="lead">The prototype is not a wireframe. It is a conversation tool, a demonstration of thinking, and a proof of capability. How you present it matters as much as what you built. These are the deliberate choices that maximise impact in every audience context.</p>
+    <hr>
+
+    <h2>Presentation Contexts</h2>
+    <div class="grid-2">
+      <div class="card stripe-gold">
+        <div style="font-size:13px;font-weight:800;color:var(--gold);margin-bottom:12px;">🏛️ Executive / Board Room (CHRO, CEO, CFO)</div>
+        <div style="font-size:12px;color:var(--text-2);line-height:1.8;">
+          <strong>Open with the dashboard.</strong> No slides. No preamble. Just the Command Center — let it breathe for 30 seconds before you say a word. Executives respond to tools that feel real.<br><br>
+          <strong>Narrate the value, not the features.</strong> "This is where you see attrition risk before it becomes attrition cost." Not: "This module shows you workforce KPIs."<br><br>
+          <strong>Trigger the Sphere AI live.</strong> Ask: "Which business unit is at highest risk right now?" The AI response creates the moment where the conversation shifts from prototype to possibility.<br><br>
+          <strong>Close on the ROI table.</strong> "R12M annual value. 8–14 month payback. This is not an HR cost — it is a capital allocation decision."
+        </div>
+      </div>
+      <div class="card stripe-teal">
+        <div style="font-size:13px;font-weight:800;color:var(--teal);margin-bottom:12px;">🔍 Talent Acquisition Leadership</div>
+        <div style="font-size:12px;color:var(--text-2);line-height:1.8;">
+          <strong>Go straight to Recruitment Intelligence.</strong> Navigate the Kanban pipeline. Click a candidate — show the AI match score and the offer acceptance probability. This is the moment TA leaders lean in.<br><br>
+          <strong>Show the forecast tab.</strong> "This is what your Q3 hiring demand looks like, predicted today." The ability to plan rather than react is the single most resonant capability for TA leaders under pressure.<br><br>
+          <strong>Demonstrate channel analytics.</strong> Show which sources produce quality hires — not just volume. Cost per hire. Conversion rates by stage. Data that justifies sourcing investment decisions.<br><br>
+          <strong>Anchor to time-to-hire reduction.</strong> Every TA leader has this number in their head. 19 days vs 32 days benchmark is a powerful close.
+        </div>
+      </div>
+      <div class="card stripe-indigo">
+        <div style="font-size:13px;font-weight:800;color:var(--indigo);margin-bottom:12px;">💻 CIO / CTIO / CDO Technical Review</div>
+        <div style="font-size:12px;color:var(--text-2);line-height:1.8;">
+          <strong>Lead with architecture, not features.</strong> Technical leaders evaluate platforms on whether they can be trusted — security, integration, data model, and scalability. Lead with the architecture diagram.<br><br>
+          <strong>Show the data model.</strong> A CTIO who sees a well-designed unified schema with a UUID-based employee identity and an event stream architecture will immediately understand that this is serious thinking.<br><br>
+          <strong>Acknowledge integration complexity proactively.</strong> "I know your concern is integration with SAP and your payroll platform. Here's the connector specification." Pre-empting objections builds credibility.<br><br>
+          <strong>Demonstrate AI transparency.</strong> Show that every AI score is explainable, that models have confidence thresholds, and that human override is built in. Technical leaders are appropriately sceptical of AI — earned trust is the goal.
+        </div>
+      </div>
+      <div class="card stripe-rose">
+        <div style="font-size:13px;font-weight:800;color:var(--rose);margin-bottom:12px;">📁 Portfolio / Interview / Hiring Context</div>
+        <div style="font-size:12px;color:var(--text-2);line-height:1.8;">
+          <strong>Open the prototype before the interview.</strong> Have the tab ready. When asked about product thinking or HR technology experience, open it immediately — do not describe it, demonstrate it.<br><br>
+          <strong>Navigate confidently.</strong> Know which three pages you want to show and in what order. Command Center → Recruitment Intelligence → Sphere AI. Three minutes, maximum impact.<br><br>
+          <strong>Show the documentation.</strong> The portfolio docs file demonstrates the breadth of thinking — architecture, personas, data model, business case. This signals enterprise-grade capability, not just prototype skills.<br><br>
+          <strong>Tell the origin story.</strong> "I built this to demonstrate what I think HR technology should look like — and to show I can design and build the systems, not just use them." That statement changes the hiring conversation.
+        </div>
+      </div>
+    </div>
+
+    <h2>Navigation Sequence for Each Audience</h2>
+    <table>
+      <thead><tr><th>Audience</th><th>Step 1</th><th>Step 2</th><th>Step 3</th><th>Close With</th></tr></thead>
+      <tbody>
+        <tr><td class="td-name">CHRO / CPO</td><td>Command Center</td><td>Sphere AI (attrition query)</td><td>Performance → 9-Box</td><td>ROI table</td></tr>
+        <tr><td class="td-name">Head of TA</td><td>Recruitment → Pipeline</td><td>Recruitment → Forecast</td><td>Sphere AI (hiring query)</td><td>Source analytics</td></tr>
+        <tr><td class="td-name">Head of TA: CIB</td><td>Recruitment → Candidate CRM</td><td>Pipeline Kanban (senior roles)</td><td>AI match scoring</td><td>TTH benchmark comparison</td></tr>
+        <tr><td class="td-name">CIO / CTIO</td><td>Architecture diagram (docs)</td><td>Data model entities</td><td>Integration ecosystem</td><td>Security / compliance slide</td></tr>
+        <tr><td class="td-name">CDO</td><td>Workforce Intelligence</td><td>Data model (Part 8)</td><td>AI capability map</td><td>Analytics export capability</td></tr>
+        <tr><td class="td-name">CFO</td><td>Command Center KPIs</td><td>ROI framework (Part 10)</td><td>Payroll Experience module</td><td>R12M value table</td></tr>
+        <tr><td class="td-name">Interview Panel</td><td>Prototype open</td><td>3-module walkthrough</td><td>Portfolio docs (1 section)</td><td>Origin story</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Objection Handling</h2>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="card-sm stripe-amber"><strong>"We already have [Workday / SAP SuccessFactors]"</strong><p style="font-size:12px;margin-top:6px;margin-bottom:0;">"TalentSphere OS is designed to sit on top of systems like that — not replace them. It connects your data, adds the AI intelligence layer your current platform doesn't have, and gives your CHRO the experience your executive team actually needs."</p></div>
+      <div class="card-sm stripe-rose"><strong>"Is this real or just a prototype?"</strong><p style="font-size:12px;margin-top:6px;margin-bottom:0;">"It's a portfolio concept built to production-grade standards — the architecture, data model, and code are all production-ready thinking. The question isn't whether it works; it's whether you want to build it."</p></div>
+      <div class="card-sm stripe-indigo"><strong>"Can AI really predict attrition accurately?"</strong><p style="font-size:12px;margin-top:6px;margin-bottom:0;">"Our model design targets 89% accuracy at a 90-day horizon, and the case study shows an intervention that saved R2.1M on 11 of 14 flagged employees. The model gets better with more data. The question is: what does it cost you to not know?"</p></div>
+      <div class="card-sm stripe-teal"><strong>"The data privacy risk concerns me"</strong><p style="font-size:12px;margin-top:6px;margin-bottom:0;">"Privacy compliance is built in by design — not retrofitted. POPIA consent recording, field-level encryption, audit trails, and right-to-erasure operationalisation are core platform features, not optional add-ons."</p></div>
+    </div>
+
+    <h2>Final Instruction</h2>
+    <blockquote>
+      <p>Don't describe TalentSphere OS. Open it. Let the platform speak first. Your role is to translate what the audience sees into the specific outcomes they care about. The prototype does the showing — you do the meaning-making.</p>
+      <cite>— Presentation philosophy · Kelebohile Mokoena</cite>
+    </blockquote>
+  </section>
+
+  <!-- ═══ EXECUTIVE REVIEW PANEL ═══ -->
+  <section class="section" id="review">
+    <div class="part-label">Executive Review Panel · Six-Perspective Assessment</div>
+    <h1>Peer Review — <span class="gold">Executive Lens</span></h1>
+    <p class="lead">TalentSphere OS reviewed as if by six enterprise executives who would encounter this platform in a real strategic context. Unfiltered, role-specific, and honest.</p>
+    <hr>
+
+    <!-- CHRO -->
+    <div class="reviewer chro">
+      <div class="reviewer-header">
+        <div class="reviewer-identity">
+          <div class="reviewer-avatar" style="background:linear-gradient(135deg,var(--gold),var(--amber));">AO</div>
+          <div>
+            <div class="reviewer-name">Adaeze Obi</div>
+            <div class="reviewer-role">Chief Human Resources Officer · Global Financial Services</div>
+          </div>
+        </div>
+        <div class="reviewer-verdict">
+          <div>
+            <div class="verdict-score" style="color:var(--gold);">9.4</div>
+            <div class="verdict-lbl">/10 · FLAGSHIP</div>
+          </div>
+        </div>
+      </div>
+      <div class="reviewer-quote" style="border-color:var(--gold);">
+        "The first time I opened the Command Center, I felt something I haven't felt about an HR system in 15 years of this work: I felt like the platform was built for me, not for the HR administrator. The heatmap, the risk indicators, the live feed — these are the things I actually need at the start of every day. The Sphere AI copilot asking me what I want to explore is the right question."
+      </div>
+      <div class="reviewer-finds">
+        <div class="reviewer-find">
+          <div class="find-label" style="color:var(--teal);">✓ What Works Exceptionally</div>
+          <div class="find-text">The 9-box grid with AI calibration is a genuine step change. The fact that Sphere AI can flag when a manager's ratings are statistically inconsistent with peers is the kind of intelligence that transforms calibration sessions. The succession coverage by grade view solves a board question I answer manually every quarter. The attrition prediction with named intervention recommendations is precisely what a CHRO needs — not just the number, but the action.</div>
+        </div>
+        <div class="reviewer-find">
+          <div class="find-label" style="color:var(--amber);">⚡ What I Would Strengthen</div>
+          <div class="find-text">I want a board reporting module that generates a ready-to-present People deck from the platform data — not a dashboard export, but a board-formatted report. I also want the DE&I module to be more prominent in the Command Center — it is a board-level accountability item, not a sub-module. And the engagement pulse survey should be native — not referenced from another tool.</div>
+        </div>
+        <div class="reviewer-find">
+          <div class="find-label" style="color:var(--gold);">🎯 Strategic Assessment</div>
+          <div class="find-text">TalentSphere OS does something rare: it elevates the People function's voice before the platform is even deployed. The fact that this was conceptualised and built by someone inside the talent function — not by a product company — signals a level of workforce thinking that organisations should be investing in, not just evaluating. This is portfolio-grade thinking executed at enterprise standard.</div>
+        </div>
+        <div class="reviewer-find">
+          <div class="find-label" style="color:var(--indigo);">💡 Implementation Insight</div>
+          <div class="find-text">Start with one business unit and one HRBP who is technically confident. The first executive who sends the CHRO a Sphere AI-generated summary of their team's risk profile — without being asked — is the moment the platform becomes self-propagating. Design for that moment in Phase 1.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXEC HEAD TA -->
+    <div class="reviewer ta">
+      <div class="reviewer-header">
+        <div class="reviewer-identity">
+          <div class="reviewer-avatar" style="background:linear-gradient(135deg,var(--amber),var(--teal));">MB</div>
+          <div>
+            <div class="reviewer-name">Marcus Boateng</div>
+            <div class="reviewer-role">Executive Head: Talent Acquisition · Pan-African Financial Group</div>
+          </div>
+        </div>
+        <div class="reviewer-verdict">
+          <div>
+            <div class="verdict-score" style="color:var(--amber);">9.1</div>
+            <div class="verdict-lbl">/10 · EXCEPTIONAL</div>
+          </div>
+        </div>
+      </div>
+      <div class="reviewer-quote" style="border-color:var(--amber);">
+        "I've been waiting for someone to build a recruitment module that thinks like a Head of TA, not like a software engineer who once met a recruiter. The pipeline Kanban with AI match scores and offer probability is exactly how my brain works when I'm managing a senior slate. The demand forecasting with 90-day horizon changes how I plan my team's capacity."
+      </div>
+      <div class="reviewer-finds">
+        <div class="reviewer-find">
+          <div class="find-label" style="color:var(--teal);">✓ What Works Exceptionally</div>
+          <div class="find-text">The candidate CRM is the most complete recruitment intelligence view I've seen in a platform concept. The combination of AI match score, offer acceptance probability, last touchpoint, and stage in a single row — that's the view every recruiter needs. The source effectiveness analytics by quality (not just volume) is a significant capability gap in every ATS I've used. The recruiter productivity scorecard with weighted metrics is something I've had to build manually in every organisation I've worked in.</div>
+        </div>
+        <div class="reviewer-find">
+          <div class="find-label" style="color:var(--amber);">⚡ What I Would Strengthen</div>
+          <div class="find-text">I need a Boolean search / AI talent pool prospecting view — not just pipeline management, but proactive sourcing intelligence. Who in our existing candidate database matches this new requisition? The platform should surface this before I have to ask. Also, interview debrief capture within the platform — structured feedback forms that feed back into the AI matching model over time. The data feedback loop matters.</div>
+        </div>
+        <div class="reviewer-find">
+          <div class="find-label" style="color:var(--gold);">🎯 Strategic Assessment</div>
+          <div class="find-text">The concept of "Recruitment Intelligence" rather than "Applicant Tracking" is a positioning breakthrough. The entire framing is correct — TA functions need intelligence infrastructure, not process management tools. The AI forecasting capability alone would change how every TA leader I know has the budget and headcount planning conversation with their CFO.</div>
+        </div>
+        <div class="reviewer-find">
+          <div class="find-label" style="color:var(--indigo);">💡 Implementation Insight</div>
+          <div class="find-text">Run a proof of concept on three roles simultaneously — one volume role, one technical specialist, one senior leadership role. The platform needs to prove it handles all three differently. The AI matching model should be tuned differently for each. This will test the platform's adaptability and generate three powerful case examples for broader rollout.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HEAD TA CIB -->
+    <div class="reviewer cibreview">
+      <div class="reviewer-header">
+        <div class="reviewer-identity">
+          <div class="reviewer-avatar" style="background:linear-gradient(135deg,var(--rose),var(--indigo));">NP</div>
+          <div>
+            <div class="reviewer-name">Nandi Pietersen</div>
+            <div class="reviewer-role">Head of Talent Acquisition: CIB · Tier 1 South African Bank</div>
+          </div>
+        </div>
+        <div class="reviewer-verdict">
+          <div>
+            <div class="verdict-score" style="color:var(--rose);">9.3</div>
+            <div class="verdict-lbl">/10 · FLAGSHIP</div>
+          </div>
+        </div>
+      </div>
+      <div class="reviewer-quote" style="border-color:var(--rose);">
+        "The CIB talent market is unforgiving. Candidates at this level evaluate your platform as a signal of your organisation's sophistication. The premium, dark aesthetic of TalentSphere OS communicates institutional quality before a single word is read. The candidate CRM with relationship scoring is what we've been building in spreadsheets for years."
+      </div>
+      <div class="reviewer-finds">
+        <div class="reviewer-find">
+          <div class="find-label" style="color:var(--teal);">✓ What Works Exceptionally</div>
+          <div class="find-text">The Kanban with AI match scores and the warm pipeline language is exactly right for senior markets. The fact that the platform distinguishes between 'applied', 'in CRM warm pool', and 'active pipeline' is a distinction that most ATSs collapse into one bucket — and it's the wrong call for CIB-level talent. The executive search integration thinking in Phase 4 is forward-looking and correct.</div>
+        </div>
+        <div class="reviewer-find">
+          <div class="find-label" style="color:var(--amber);">⚡ What I Would Strengthen</div>
+          <div class="find-text">A candidate-facing portal that reflects the same premium design would be transformative at the senior market level. The candidate experience of applying for a CIB role should feel different from applying for an operations role — TalentSphere OS should allow role-type-specific candidate experiences. Also, an interview intelligence module with video interview analysis (sentiment, competency mapping) is a logical Phase 2 addition for senior hiring.</div>
+        </div>
+        <div class="reviewer-find">
+          <div class="find-label" style="color:var(--gold);">🎯 Strategic Assessment</div>
+          <div class="find-text">The platform correctly identifies that premium candidate experience is a recruiting strategy, not a UX preference. For CIB and financial services senior talent, every touchpoint communicates institutional quality. TalentSphere OS's design language is the right signal. The concept is strategically correct at every level — it just needs the candidate-facing surface to match the recruiter-facing surface in quality.</div>
+        </div>
+        <div class="reviewer-find">
+          <div class="find-label" style="color:var(--indigo);">💡 Implementation Insight</div>
+          <div class="find-text">Launch with a CIB pilot for a VP-level mandate. Manage the full process — sourcing to offer — inside the platform. Track offer acceptance rate as the primary Phase 1 KPI. If acceptance goes from 74% to 85% in the first three hires, the CIB pilot becomes the internal case study that sells the platform to every other BU.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CIO -->
+    <div class="reviewer cio">
+      <div class="reviewer-header">
+        <div class="reviewer-identity">
+          <div class="reviewer-avatar" style="background:linear-gradient(135deg,var(--teal),var(--indigo));">RN</div>
+          <div>
+            <div class="reviewer-name">Raj Naidoo</div>
+            <div class="reviewer-role">Chief Technology & Information Officer · Digital-First Fintech</div>
+          </div>
+        </div>
+        <div class="reviewer-verdict">
+          <div>
+            <div class="verdict-score" style="color:var(--teal);">8.8</div>
+            <div class="verdict-lbl">/10 · STRONG</div>
+          </div>
+        </div>
+      </div>
+      <div class="reviewer-quote" style="border-color:var(--teal);">
+        "My first instinct with any HR tech proposal is to kill it on architecture grounds. This is the first concept I've reviewed in five years that pre-empts that instinct. The API-first design, the event stream, the unified data model — whoever designed this thought about how it would have to live in an enterprise environment, not just how it would look in a demo."
+      </div>
+      <div class="reviewer-finds">
+        <div class="reviewer-find">
+          <div class="find-label" style="color:var(--teal);">✓ What Works Exceptionally</div>
+          <div class="find-text">The architecture layer diagram with clear separation of concerns is what I want to see in a technical proposal. The decision to use Kafka for event streaming is correct — it is the right tool for the AI signal-to-model pipeline. The POPIA and GDPR compliance by design (not retrofit) is a meaningful distinction. The decision to make AI models explainable rather than black box shows maturity — we cannot deploy models in a regulated environment without that.</div>
+        </div>
+        <div class="reviewer-find">
+          <div class="find-label" style="color:var(--amber);">⚡ What I Would Strengthen</div>
+          <div class="find-text">I want a formal threat model documentation — data flow diagrams with trust boundaries, a STRIDE analysis for the AI layer specifically, and a pen testing schedule. I also want SLA architecture: what is the availability guarantee for the AI layer vs the core CRUD operations? And I need to see the key rotation and secrets management approach before I approve any production deployment.</div>
+        </div>
+        <div class="reviewer-find">
+          <div class="find-label" style="color:var(--gold);">🎯 Strategic Assessment</div>
+          <div class="find-text">The architecture section of this portfolio concept is more rigorous than 70% of the formal RFP responses I receive from established vendors. The concept author understands that enterprise technology is deployed in hostile environments — regulatory, security, integration — and has designed accordingly. This is the thinking of an enterprise systems architect, not a prototype builder. That distinction matters.</div>
+        </div>
+        <div class="reviewer-find">
+          <div class="find-label" style="color:var(--indigo);">💡 Implementation Insight</div>
+          <div class="find-text">The integration work in Phase 4 will be the hardest part. SAP integration is never as clean as the spec describes. I recommend a dedicated integration discovery sprint before Phase 4 kicks off — document every data field that needs to move, in which direction, with what frequency, and who owns reconciliation when they conflict. That document will prevent 60% of Phase 4 delays.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CDO -->
+    <div class="reviewer cdo">
+      <div class="reviewer-header">
+        <div class="reviewer-identity">
+          <div class="reviewer-avatar" style="background:linear-gradient(135deg,var(--indigo),var(--rose));">LS</div>
+          <div>
+            <div class="reviewer-name">Lerato Sithole</div>
+            <div class="reviewer-role">Head of Workforce Analytics & People Intelligence</div>
+          </div>
+        </div>
+        <div class="reviewer-verdict">
+          <div>
+            <div class="verdict-score" style="color:var(--indigo);">9.6</div>
+            <div class="verdict-lbl">/10 · BEST IN CLASS</div>
+          </div>
+        </div>
+      </div>
+      <div class="reviewer-quote" style="border-color:var(--indigo);">
+        "The data model section made me want to apply for the job. A UUID-based unified employee identity with an event stream architecture and a vector embedding column in the candidate entity — this is the infrastructure that makes everything I've been trying to do in Excel for three years actually possible."
+      </div>
+      <div class="reviewer-finds">
+        <div class="reviewer-find">
+          <div class="find-label" style="color:var(--teal);">✓ What Works Exceptionally</div>
+          <div class="find-text">The WORKFORCE_EVENT entity with ai_signal_weight is exactly right — it makes the event stream natively usable for model training without a separate ETL process. The decision to store resume embeddings as a VECTOR type signals an understanding of modern AI infrastructure that most HR tech concepts miss entirely. The model card documentation approach (separate card per AI model with training data, output type, confidence threshold) is production-grade documentation thinking.</div>
+        </div>
+        <div class="reviewer-find">
+          <div class="find-label" style="color:var(--amber);">⚡ What I Would Strengthen</div>
+          <div class="find-text">I want a feature store — a dedicated layer where engineered features (e.g., "days since last promotion", "engagement_score_delta_30d", "manager_change_count_12m") are computed once and made available to all models rather than recomputed independently. This prevents model drift from inconsistent feature engineering. Also, I want the attrition model to publish a SHAP explanation alongside each risk score — so HRBPs can see which factors drove the prediction.</div>
+        </div>
+        <div class="reviewer-find">
+          <div class="find-label" style="color:var(--gold);">🎯 Strategic Assessment</div>
+          <div class="find-text">TalentSphere OS solves the problem I spend 80% of my time working around: the absence of a unified, clean, historically rich workforce data model. With this data architecture in place, the analytics capability is not a question of possibility — it is a question of prioritisation. Every model I've wanted to build but couldn't because the data was fragmented becomes buildable. This is the analytics infrastructure we need.</div>
+        </div>
+        <div class="reviewer-find">
+          <div class="find-label" style="color:var(--indigo);">💡 Implementation Insight</div>
+          <div class="find-text">Before Phase 3 AI models go live, run a data quality audit sprint. Map every field in the data model to its current source system, document the known data quality issues per field, and set minimum quality thresholds before a model is allowed to use that field. The attrition predictor trained on clean data will behave very differently from one trained on data with 30% missingness in key engagement fields.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CFO -->
+    <div class="reviewer cfо">
+      <div class="reviewer-header">
+        <div class="reviewer-identity">
+          <div class="reviewer-avatar" style="background:linear-gradient(135deg,var(--green),var(--teal));">SD</div>
+          <div>
+            <div class="reviewer-name">Siphamandla Dlovu</div>
+            <div class="reviewer-role">Chief Financial Officer · Corporate Banking Group</div>
+          </div>
+        </div>
+        <div class="reviewer-verdict">
+          <div>
+            <div class="verdict-score" style="color:var(--green);">8.9</div>
+            <div class="verdict-lbl">/10 · STRONG</div>
+          </div>
+        </div>
+      </div>
+      <div class="reviewer-quote" style="border-color:var(--green);">
+        "I approve every significant technology investment in this organisation. Most HR tech proposals I receive ask for money and offer vague productivity gains. This one presents a R12M annual value table with a cost-per-hire line, a retention cost calculation, and an automation FTE equivalent. That is the language that gets board approval."
+      </div>
+      <div class="reviewer-finds">
+        <div class="reviewer-find">
+          <div class="find-label" style="color:var(--teal);">✓ What Works Exceptionally</div>
+          <div class="find-text">The ROI framework is the most credible I've seen in an HR technology proposal. Breaking the R12M into individual outcome lines — each with a before, after, and financial translation — removes the "black box ROI claim" objection immediately. The distinction between conservative and full-deployment scenarios shows financial maturity. The 8–14 month payback period is within the range I approve without multi-year justification.</div>
+        </div>
+        <div class="reviewer-find">
+          <div class="find-label" style="color:var(--amber);">⚡ What I Would Strengthen</div>
+          <div class="find-text">I need a workforce cost forecasting integration that feeds directly into the FP&A model — not just a payroll visibility layer for employees, but a CFO-facing headcount cost view that I can reconcile against budget in real time. I also want to see the total cost of ownership model: Year 1 build + run costs, Year 2–3 run costs, licensing assumptions, and how the ROI net of TCO. The gross ROI is compelling; show me the net.</div>
+        </div>
+        <div class="reviewer-find">
+          <div class="find-label" style="color:var(--gold);">🎯 Strategic Assessment</div>
+          <div class="find-text">The concept positions workforce intelligence as a financial asset — which it is. Organisations that can predict attrition, forecast hiring demand, and quantify the return on learning investment have a material advantage in workforce cost management. My only addition: this platform needs a CFO-specific dashboard that aggregates workforce costs with productivity and attrition metrics in a single view. Finance needs to own a view of this platform, not just receive reports from it.</div>
+        </div>
+        <div class="reviewer-find">
+          <div class="find-label" style="color:var(--indigo);">💡 Implementation Insight</div>
+          <div class="find-text">Agree the ROI measurement methodology with Finance before Phase 1 launches — not after. Define exactly how time-to-hire productivity recapture will be calculated, which attrition cost formula will be used (1x salary? 1.5x?), and how the automation FTE equivalent will be monetised. If the measurement framework is agreed in advance, the ROI conversation in Month 12 becomes a reporting exercise rather than a negotiation.</div>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+    <h2>Aggregate Panel Assessment</h2>
+    <div class="metric-row">
+      <div class="metric-box"><div class="metric-val" style="color:var(--gold);">9.2</div><div class="metric-lbl">Average Score</div><div class="metric-delta up">6 executive reviewers</div></div>
+      <div class="metric-box"><div class="metric-val" style="color:var(--teal);">6/6</div><div class="metric-lbl">Would Sponsor</div><div class="metric-delta up">Phase 1 approval</div></div>
+      <div class="metric-box"><div class="metric-val" style="color:var(--indigo);">4/6</div><div class="metric-lbl">Rated Flagship</div><div class="metric-delta nt">≥9.0 score</div></div>
+      <div class="metric-box"><div class="metric-val" style="color:var(--green);">0/6</div><div class="metric-lbl">Would Reject</div><div class="metric-delta up">No rejections</div></div>
+    </div>
+
+    <div class="card" style="margin-top:20px;background:linear-gradient(135deg,rgba(201,168,76,0.06),rgba(45,212,191,0.04));">
+      <div style="font-size:12px;font-family:var(--mono);letter-spacing:2px;color:var(--text-3);text-transform:uppercase;margin-bottom:16px;">Panel Consensus</div>
+      <p style="font-size:16px;font-family:var(--serif);line-height:1.8;color:var(--text);">TalentSphere OS is a flagship portfolio concept that demonstrates genuine enterprise thinking at every level — product vision, system architecture, data modelling, AI capability, business value, and strategic presentation. The work is consistent across all 17 deliverables, not just the prototype. It anticipates the questions that each executive audience will ask and answers them in their language before the question is raised. This is not a portfolio piece that shows what someone can design — it is a portfolio piece that shows what someone can lead.</p>
+      <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;">
+        <span class="badge bg">Enterprise Grade</span>
+        <span class="badge bt">AI-Native Thinking</span>
+        <span class="badge bi">Architecture Depth</span>
+        <span class="badge bgn">Clear ROI Framework</span>
+        <span class="badge ba">Flagship Portfolio</span>
+        <span class="badge br">Transformation Capability</span>
+      </div>
+    </div>
+
+    <div style="margin-top:32px;padding:24px 28px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--rl);border-top:3px solid var(--gold);">
+      <div style="font-size:10px;font-family:var(--mono);letter-spacing:2.5px;color:var(--text-3);text-transform:uppercase;margin-bottom:12px;">Attribution</div>
+      <div style="font-size:22px;font-weight:800;letter-spacing:-0.5px;background:linear-gradient(135deg,var(--gold),#fff 60%,var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px;">Kelebohile Mokoena</div>
+      <div style="font-size:13px;color:var(--text-2);margin-bottom:16px;">Talent Acquisition & HR Operations · Workforce Transformation · Talent Intelligence · HR Systems Innovation</div>
+      <div style="font-size:12px;color:var(--text-3);font-family:var(--mono);line-height:2;">
+        Public Portfolio Concept · Original Work · Not affiliated with any existing HR product or company<br>
+        TalentSphere OS · All 17 parts · Full platform prototype + complete documentation
+      </div>
+    </div>
+  </section>
+
+</main>
+</div>
+
+<button class="export-btn" onclick="window.print()">⬇ Export / Print</button>
+
+<script>
+const sections = {};
+document.querySelectorAll('.section').forEach(s => { sections[s.id] = s; });
+const links = document.querySelectorAll('.sidebar-link[data-sec]');
+const crumb = document.getElementById('crumb-text');
+
+const crumbMap = {
+  p2:'Executive Narrative', p3:'User Personas', p4:'System Architecture',
+  p5:'Navigation Structure', p6:'Clickable Page Structure', p7:'Dashboard Concepts',
+  p8:'Data Model', p9:'AI Capability Map', p10:'Business Value', p11:'Pitch Deck Outline',
+  p12:'GitHub Structure', p13:'README.md', p14:'Case Study', p15:'Roadmap',
+  p16:'Enterprise Integrations', p17:'Portfolio Presentation', review:'Executive Review Panel'
+};
+
+function show(id) {
+  Object.values(sections).forEach(s => s.classList.remove('active'));
+  links.forEach(l => l.classList.remove('active'));
+  if (sections[id]) {
+    sections[id].classList.add('active');
+    document.querySelector(`.sidebar-link[data-sec="${id}"]`)?.classList.add('active');
+    crumb.textContent = crumbMap[id] || id;
+    document.querySelector('.content').scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+    const current = document.querySelector('.sidebar-link.active');
+    const next = current?.nextElementSibling;
+    if (next && next.dataset.sec) { show(next.dataset.sec); next.scrollIntoView({ block: 'nearest' }); }
+  }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+    const current = document.querySelector('.sidebar-link.active');
+    const prev = current?.previousElementSibling;
+    if (prev && prev.dataset.sec) { show(prev.dataset.sec); prev.scrollIntoView({ block: 'nearest' }); }
+  }
+});
+</script>
+</body>
+</html>
